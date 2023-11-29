@@ -1,3 +1,5 @@
+package com.scm
+
 import java.util.HashMap;
 
 public class Product {

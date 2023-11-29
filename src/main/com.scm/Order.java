@@ -3,7 +3,7 @@ package com.scm
 
 import java.util.HashMap;
 
-public class Order {
+public class Order extends Customer{
     // Attributes
     private int orderID;
     private String status;

@@ -1,3 +1,4 @@
+package com.scm
 // Electronic Product class
 class ElectronicProduct extends Product {
     // Additional properties and methods specific to electronic products

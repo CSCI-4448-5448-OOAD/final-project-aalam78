@@ -1,3 +1,4 @@
+package com.scm
 // Concrete observer class
 class OrderStatusObserver implements OrderObserver {
     @Override
