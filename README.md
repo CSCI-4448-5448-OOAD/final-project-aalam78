@@ -2,10 +2,11 @@
 # Final Project(Project 5,6,7)
 
 Team Members:
-1. Name
-2. Name
+1. Name Arnib Alam Farooqui
+2. Name Daniel Hernandez
 
-Java Version:
+
+Java Version: "20.0.2" 2023-07-18
 
 Additional Comments:
 
