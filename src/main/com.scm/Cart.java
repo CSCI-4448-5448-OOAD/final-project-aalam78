@@ -1,77 +1,75 @@
 package com.scm
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cart {
     private int cartID;
     private int dateAdded;
     private float total;
-    private Shopping shopping;
+    private List<Product> shoppingList;
 
     // Constructor
-    public Cart(int cartID, int dateAdded, Shopping shopping) {
+    public Cart(int cartID) {
         this.cartID = cartID;
-        this.dateAdded = dateAdded;
-        this.shopping = shopping;
+        this.dateAdded = (int) System.currentTimeMillis(); // Using current time as an example
         this.total = 0.0f;
+        this.shoppingList = new ArrayList<>();
     }
 
-    // Additional methods for the Cart class
+    // Method to add a product to the cart
     public void addCartItem(Product product) {
-        // Assuming product.getPrice() returns the price of the product
-        total += product.getPrice();
-        shopping.addToCart(product.getProductID());
-        System.out.println(product.getProductName() + " added to cart for shopping customer " + shopping.getUserName());
+        shoppingList.add(product);
+        updateTotal();
     }
 
+    // Method to remove a product from the cart
     public void removeFromCart(Product product) {
-        // Assuming product.getPrice() returns the price of the product
-        total -= product.getPrice();
-        shopping.removeFromCart(product.getProductID());
-        System.out.println(product.getProductName() + " removed from cart for shopping customer " + shopping.getUserName());
+        shoppingList.remove(product);
+        updateTotal();
     }
 
-    public void updateQuantity() {
-        // Logic to update the quantity of items in the cart
-        System.out.println("Quantity updated for cart ID " + cartID);
+    // Method to update the quantity of a product in the cart
+    public void updateQuantity(Product product, int newQuantity) {
+        // Implement logic to update the quantity of the specified product
+        // For simplicity, let's assume each product has a quantity attribute
+        product.setQuantity(newQuantity);
+        updateTotal();
     }
 
+    // Method to view the contents of the cart
     public void viewCart() {
-        HashMap<Integer, Product> cartItems = shopping.getCart();
-        System.out.println("Shopping cart for customer " + shopping.getUserName() + " (Cart ID: " + cartID + "):");
-        for (Map.Entry<Integer, Product> entry : cartItems.entrySet()) {
-            Product product = entry.getValue();
-            System.out.println("  - " + product.getProductName() + " | Price: $" + product.getPrice());
-        }
+        System.out.println("Cart ID: " + cartID);
+        System.out.println("Date Added: " + dateAdded);
         System.out.println("Total: $" + total);
+        System.out.println("Shopping List:");
+        for (Product product : shoppingList) {
+            System.out.println(product.toString());
+        }
     }
 
+    // Method to perform checkout
     public void checkout() {
-        // Logic to process the checkout, e.g., update order history, clear the cart, etc.
-        System.out.println("Checkout completed for cart ID " + cartID);
+        // Implement logic for the checkout process
+        // For example, update inventory, process payment, etc.
+        System.out.println("Checkout completed. Thank you for your purchase!");
+        // Reset the cart after checkout
+        shoppingList.clear();
+        total = 0.0f;
     }
 
-    public HashMap<Integer, Product> getShoppingList() {
-        return shopping.getCart();
+    // Getter for shopping list
+    public List<Product> getShoppingList() {
+        return shoppingList;
     }
 
-    public static void main(String[] args) {
-        // Example usage
-        Shopping shoppingCustomer = new Shopping(1, "John Doe", "john@example.com", "password123", currentDate, address, "Express Shipping");
-        Cart shoppingCart = new Cart(1, currentDate, shoppingCustomer);
-
-        // Adding a product to the cart
-        Product product = new Product(1, "Laptop", "High-performance laptop", 1200.0f, 2.5f);
-        shoppingCart.addCartItem(product);
-
-        // Viewing the cart
-        shoppingCart.viewCart();
-
-        // Removing a product from the cart
-        shoppingCart.removeFromCart(product);
-
-        // Checking out
-        shoppingCart.checkout();
+    // Private method to update the total based on the products in the cart
+    private void updateTotal() {
+        total = 0.0f;
+        for (Product product : shoppingList) {
+            total += product.getPrice() * product.getQuantity();
+        }
     }
+
 }
+

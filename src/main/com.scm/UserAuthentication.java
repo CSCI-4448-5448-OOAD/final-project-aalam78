@@ -44,15 +44,3 @@ public class UserAuthentication {
         return loggedInUser != null;
     }
 
-    // Inner User class for demonstration purposes
-    public static class User {
-        private String username;
-
-        public User(String username) {
-            this.username = username;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-    }

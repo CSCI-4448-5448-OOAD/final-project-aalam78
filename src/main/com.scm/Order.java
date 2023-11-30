@@ -16,6 +16,7 @@ public class Order extends Customer{
     private Payment paymentInfo;
     private ShippingInfo shippingInfo;
     private static HashMap<Integer, Order> orderMap;
+    private List<OrderObserver> observers = new ArrayList<>();
 
     // Constructors
     public Order(int orderID, String status, HashMap<Integer, Product> products, String dateCreated,
@@ -69,5 +70,27 @@ public class Order extends Customer{
         // Logic to calculate subtotal based on product prices and quantities
         // You need to implement this based on your requirements
         return 0.0f; // Placeholder value
+    }
+
+    // Methods for observer management
+    public void addObserver(OrderObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(OrderObserver observer) {
+        observers.remove(observer);
+    }
+
+    // Notify observers when the order status changes
+    private void notifyObservers() {
+        for (OrderObserver observer : observers) {
+            observer.update(this);
+        }
+    }
+    // Methods to change the order status
+    @Override
+    public void changeOrderStatus(String newStatus) {
+        super.changeOrderStatus(newStatus); // Call the method in the superclass
+        notifyObservers(); // Notify observers when the order status changes
     }
 }
