@@ -26,5 +26,17 @@
             "database": "ooad-final-db",
             "username": "root"
         }
-    ]
+    ],
+    "files.watcherExclude": {
+        "**/target": true
+    },
+    "maven.excludedFolders": [
+
+        "**/.*",
+        "**/node_modules",
+        "**/target",
+        "**/bin",
+        "**/archetype-resources"
+    ],
+    "java.configuration.maven.userSettings": "./settings.xml"
 }
