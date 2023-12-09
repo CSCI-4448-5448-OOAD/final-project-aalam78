@@ -2,6 +2,9 @@ package com.scm;
 
 import java.util.HashMap;
 
+import static com.scm.ProductDAO.insertProduct;
+
+
 public class Product {
     private int productID;
     private String name;
@@ -43,6 +46,9 @@ public class Product {
         return price;
     }
 
+    public String getProductDescription() {
+        return description;
+    }
 
     // Method to check if the price is down and trigger an alert
     public boolean priceIsDownAlert(float newPrice) {
@@ -52,7 +58,11 @@ public class Product {
     // Java doesn't support operator overloading, so I've created a separate method for adding to the database
     public static void addProductToDB(Product product, HashMap<Integer, Product> productMap) {
         productMap.put(product.getProductID(), product);
+        insertProduct(product.getProductID(),  product.getProductName(),
+                product.getProductDescription(), product.getProductPrice(),
+                product.getProductWeight());
     }
+
 
     public static void removeProductFromDB(Product product, HashMap<Integer, Product> productMap) {
         productMap.remove(product.getProductID());
