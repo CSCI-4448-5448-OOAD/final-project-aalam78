@@ -2,8 +2,6 @@ package com.scm;
 
 import java.util.HashMap;
 
-import static com.scm.ProductDAO.insertProduct;
-
 
 public class Product {
     private int productID;
@@ -12,13 +10,14 @@ public class Product {
     private float price;
     private float productWeight;
 
+    int warranty;
 
     public static HashMap<Integer, Product> productMap = new HashMap<>();
 
 
     // Constructor
-    public Product(int productID, String name, String description, float price, float productWeight) {
-        if (productID < 0 || price < 0 || productWeight < 0) {
+    public Product(String name, String description, float price, float productWeight) {
+        if (price < 0 || productWeight < 0) {
             throw new IllegalArgumentException("Invalid product parameters");
         }
         this.productID = productID;
@@ -41,6 +40,9 @@ public class Product {
     public int getProductID() {
         return productID;
     }
+    public int getWarranty() {
+        return warranty;
+    }
 
     public float getProductPrice() {
         return price;
@@ -54,15 +56,6 @@ public class Product {
     public boolean priceIsDownAlert(float newPrice) {
         return newPrice < price;
     }
-
-    // Java doesn't support operator overloading, so I've created a separate method for adding to the database
-    public static void addProductToDB(Product product, HashMap<Integer, Product> productMap) {
-        productMap.put(product.getProductID(), product);
-        insertProduct(product.getProductID(),  product.getProductName(),
-                product.getProductDescription(), product.getProductPrice(),
-                product.getProductWeight());
-    }
-
 
     public static void removeProductFromDB(Product product, HashMap<Integer, Product> productMap) {
         productMap.remove(product.getProductID());

@@ -1,51 +1,87 @@
 package com.scm;
 
 import java.sql.*;
+import java.util.HashMap;
 
 import static com.scm.DatabaseConnection.getConnection;
 import static com.scm.DatabaseConnection.handleSQLException;
 
 public class ProductDAO {
     // Method to insert a product into the database
-    public static void insertProduct(int productId, String name,
+    public void addProductToDB(Product product, HashMap<Integer, Product> productMap) {
+        int productID = insertProduct(product.getProductName(),
+                product.getProductDescription(), product.getProductPrice(),
+                product.getProductWeight(), product.getWarranty());
+        if (productID != -1) {
+            productMap.put(product.getProductID(), product);
+        }
+    }
+
+    public static int insertProduct(String name,
                                      String  description, double price,
-                                     double productWeight) {
-        String insertQuery = "INSERT INTO product (ProductID, Name, " +
-                "Description, Price, ProductWeight) VALUES (?, ?, ?, ?, ?)";
+                                     double productWeight, int warranty) {
+        String selectQuery = "SELECT * FROM product WHERE Name = ?";
+        String insertQuery = "INSERT INTO product (Name, " +
+                "Description, Price, ProductWeight, Warranty) VALUES (?, ?, " +
+                "?, ?, ?)";
 
         try {
             Connection connection = getConnection();
+            PreparedStatement selectStatement =
+                    connection.prepareStatement(selectQuery);
+            selectStatement.setString(1, name);
+            ResultSet resultSet = selectStatement.executeQuery();
+            if (resultSet.next()) {
+                // Product already exists, you can choose to skip
+                // In future we can have the criteria of if a product with
+                // same IMEI exists, since two laptops can have all the same
+                // specs but their IMEI will be different.
+                System.out.println("Product with Name " + name + " already " +
+                        "exists.  Skipping insertion.");
+                return -1;
+            }
+
             PreparedStatement preparedStatement =
-                    connection.prepareStatement(insertQuery);
+                    connection.prepareStatement(insertQuery,
+                            Statement.RETURN_GENERATED_KEYS);
 
             // Set parameters for the prepared statement
-            preparedStatement.setInt(1, productId);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, description);
-            preparedStatement.setDouble(4, price);
-            preparedStatement.setDouble(5, productWeight);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, description);
+            preparedStatement.setDouble(3, price);
+            preparedStatement.setDouble(4, productWeight);
+            preparedStatement.setInt(5, warranty);
 
             // Execute the insert query
             preparedStatement.executeUpdate();
 
-            System.out.println("Product inserted successfully!");
 
-            // Check if the entry exists by querying the database
-            checkInsertedProduct(connection, productId);
+            // Retrieve the generated ProductID
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                // Check if the entry exists by querying the database
+                checkInsertedProduct(connection);
+                System.out.println("Product inserted successfully!");
+                return generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Creating product failed, no ProductID" +
+                        "  obtained.");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 
-    private static void checkInsertedProduct(Connection connection,
-                                             int productId) {
-        String selectQuery = "SELECT * FROM product WHERE ProductID = ?";
+    private static void checkInsertedProduct(Connection connection) {
+        String selectQuery = "SELECT * FROM product WHERE ProductID = " +
+                "LAST_INSERT_ID()";
 
         try {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(selectQuery);
-            preparedStatement.setInt(1, productId);
+//            preparedStatement.setInt(1, productId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -87,7 +123,7 @@ public class ProductDAO {
                 float price = resultSet.getFloat("Price");
                 float productWeight = resultSet.getFloat("ProductWeight");
 
-                Product product = new Product(productID, name, description, price, productWeight);
+                Product product = new Product(name, description, price, productWeight);
                 System.out.println(product);
             }
 
