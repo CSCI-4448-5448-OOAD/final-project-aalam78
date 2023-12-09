@@ -1,7 +1,6 @@
 package com.scm;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import static com.scm.ProductDAO.readAllProducts;
 
 @SpringBootApplication
 public class ScmApplication {
@@ -16,11 +15,17 @@ public class ScmApplication {
                         "This laptop is mediocre.", 500, 2.5f);
         ProductDAO productDAO = new ProductDAO();
         productDAO.addProductToDB(product, Product.productMap);
-        readAllProducts();
+        productDAO.readAllProducts();
 
         CustomerDAO customerDAO = new CustomerDAO();
         Shopping shopper = customerDAO.getShopperById(1);
         System.out.println(shopper);
+        shopper.addToCart(1);
+
+        OrderDAO orderDAO = new OrderDAO();
+        orderDAO.placeOrder(shopper);
+
+        // Update the order status in the database so that the observers are
+        // notified
     }
 }
-

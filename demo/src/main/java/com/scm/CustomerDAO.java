@@ -17,9 +17,10 @@ public class CustomerDAO {
     }
 
     public Customer getCustomerById(int userId) {
-        try (Connection connection = getConnection();
+        try {
+            Connection connection = getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement(SELECT_CUSTOMER_BY_ID)) {
+                     connection.prepareStatement(SELECT_CUSTOMER_BY_ID);
 
             preparedStatement.setInt(1, userId);
 
@@ -34,9 +35,10 @@ public class CustomerDAO {
         return null; // Return null if customer not found or an error occurred
     }
     public Shopping getShopperById(int userId) {
-        try (Connection connection = getConnection();
+        try {
+            Connection connection = getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement(SELECT_CUSTOMER_BY_ID)) {
+                     connection.prepareStatement(SELECT_CUSTOMER_BY_ID);
 
             preparedStatement.setInt(1, userId);
 

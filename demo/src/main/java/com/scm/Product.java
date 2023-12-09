@@ -16,11 +16,11 @@ public class Product {
 
 
     // Constructor
-    public Product(String name, String description, float price, float productWeight) {
+    public Product(String name, String description, float price,
+                   float productWeight) {
         if (price < 0 || productWeight < 0) {
             throw new IllegalArgumentException("Invalid product parameters");
         }
-        this.productID = productID;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -72,5 +72,9 @@ public class Product {
                 ", Description: " + description +
                 ", Price: " + price +
                 ", Weight: " + productWeight;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 }
