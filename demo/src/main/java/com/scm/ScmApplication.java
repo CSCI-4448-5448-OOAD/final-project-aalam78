@@ -2,7 +2,55 @@ package com.scm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.*;
+
+import static com.scm.ProductDAO.readAllProducts;
+
+@SpringBootApplication
+public class ScmApplication {
+
+    public static void main(String[] args) {
+        // Initialize the cart
+        Cart cart = new Cart(1);
+
+        // Add products to the cart
+        ElectronicProductFactory electronicProductFactory = new ElectronicProductFactory();
+        Product electronicProduct = electronicProductFactory.createProduct(3, "MacBook Pro 2019", "This laptop is mediocre.", 500, 2.5f);
+        cart.addCartItem(electronicProduct, 2);
+
+        // Set the payment strategy (you can choose between CreditCardPayment or PayPalPayment)
+        PaymentStrategy paymentStrategy = new CreditCardPayment("1234-5678-9101-1121", "12/24", "123");
+        cart.setPaymentStrategy(paymentStrategy);
+
+        // View the cart contents before checkout
+        cart.viewCart();
+
+        // Perform checkout
+        cart.checkout();
+
+        // After checkout, the cart will be reset
+        cart.viewCart();
+
+        // If you want to read and display all products, you can uncomment the following line
+        // readAllProducts();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
 
 import java.util.List;
 import java.util.Map;
@@ -80,3 +128,4 @@ class CartController {
         }
     }
 }
+*/

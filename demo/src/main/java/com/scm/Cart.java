@@ -8,6 +8,7 @@ public class Cart {
     private long dateAdded; // Changed to long for timestamp
     private float total;
     private List<CartItem> shoppingList; // Changed to a list of CartItem
+    private PaymentStrategy paymentStrategy; // Field to hold the payment strategy
 
     // Constructor
     public Cart(int cartID) {
@@ -15,6 +16,7 @@ public class Cart {
         this.dateAdded = System.currentTimeMillis(); // Using current time as an example
         this.total = 0.0f;
         this.shoppingList = new ArrayList<>();
+        this.paymentStrategy = null; // Initialize the payment strategy to null
     }
 
     // Method to add a product to the cart
@@ -61,14 +63,9 @@ public class Cart {
         }
     }
 
-    // Method to perform checkout
-    public void checkout() {
-        // Implement logic for the checkout process
-        // For example, update inventory, process payment, etc.
-        System.out.println("Checkout completed. Thank you for your purchase!");
-        // Reset the cart after checkout
-        shoppingList.clear();
-        total = 0.0f;
+    // Method to set the payment strategy
+    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
     }
 
     // Getter for shopping list
@@ -77,11 +74,34 @@ public class Cart {
     }
 
     // Private method to update the total based on the products in the cart
-    private void updateTotal() {
+    private float updateTotal() {
         total = 0.0f;
         for (CartItem cartItem : shoppingList) {
             total += cartItem.getSubtotal();
         }
+        return cartID;
+    }
+
+    // Method to perform checkout
+    public void checkout() {
+        if (paymentStrategy == null) {
+            System.out.println("Error: Payment strategy not set. Please set a payment strategy.");
+            return;
+        }
+
+        // Calculate the total amount from the shopping list
+        float amount = updateTotal();
+
+        // Use the payment strategy to make the payment
+        paymentStrategy.makePayment(amount);
+
+        // Implement logic for the checkout process
+        // For example, update inventory, etc.
+        System.out.println("Checkout completed. Thank you for your purchase!");
+
+        // Reset the cart after checkout
+        shoppingList.clear();
+        total = 0.0f;
     }
 
     // Private method to find a CartItem for a given Product in the cart
@@ -129,4 +149,8 @@ class CartItem {
                 ", subtotal=$" + getSubtotal() +
                 '}';
     }
+
+
+
+
 }
