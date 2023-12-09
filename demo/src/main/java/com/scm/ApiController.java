@@ -1,5 +1,6 @@
 package com.scm;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,18 +13,18 @@ public class ApiController {
 
     private final Model model;
     private final MainView view;
+    private final Product product;
 
     public ApiController(Model model, MainView view) {
         this.model = model;
         this.view = view;
+        this.product = product;
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody UserDetails userDetails) {
-        // Implementation logic to create a user
-        // ...
-
-        return ResponseEntity.ok(/* Created user */);
+     @PostMapping("/products")
+    public ResponseEntity<Product> createProduct(@RequestBody ProductDetails productDetails) {
+        Product createdProduct = product.createProduct(productDetails);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
     @PutMapping("/products")
@@ -34,14 +35,16 @@ public class ApiController {
         return ResponseEntity.ok(/* Updated product */);
     }
 
-    @PutMapping("/stocks")
-    public ResponseEntity<Stock> updateStock(@RequestBody StockDetails stockDetails) {
-        // Implementation logic to update stock
-        // ...
-
-        return ResponseEntity.ok(/* Updated stock */);
+    @PutMapping("/products/{productId}")
+    public ResponseEntity<Product> updateProduct(
+            @PathVariable int productId,
+            @RequestBody ProductDetails productDetails) {
+        // Implementation
+        return ResponseEntity.ok(/* Updated product */);
     }
 
+
+    
     @PostMapping("/login")
     public ResponseEntity<User> loginUser(@RequestBody UserDetails userDetails) {
         // Implementation logic for user login
@@ -67,11 +70,9 @@ public class ApiController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> browseProduct() {
-        // Implementation logic to retrieve and return a list of products
-        // ...
-
-        return ResponseEntity.ok(/* List of products */);
+    public ResponseEntity<List<Product>> showAllProducts() {
+        List<Product> products = product.getAllProducts();
+        return ResponseEntity.ok(products);
     }
 
     // Similar implementations for other endpoints (sort, search, getUser, getStock, getOrder, getProduct)

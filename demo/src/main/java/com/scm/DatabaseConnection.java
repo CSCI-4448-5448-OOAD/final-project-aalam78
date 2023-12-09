@@ -1,7 +1,9 @@
-/*package com.scm;
+package com.scm;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
@@ -31,8 +33,8 @@ public class DatabaseConnection {
         // Example: show existing tables
         System.out.println("Existing Tables:");
         String showTablesQuery = "SHOW TABLES";
-        try (var statement = connection.createStatement();
-             var resultSet = statement.executeQuery(showTablesQuery)) {
+        try (java.sql.Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(showTablesQuery)) {
             while (resultSet.next()) {
                 System.out.println(resultSet.getString(1));
             }
@@ -47,4 +49,3 @@ public class DatabaseConnection {
         e.printStackTrace();
     }
 }
-*/
