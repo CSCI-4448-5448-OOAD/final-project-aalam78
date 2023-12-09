@@ -17,6 +17,10 @@ public class Cart {
         this.shoppingList = new ArrayList<>();
     }
 
+    public float getTotalCost() {
+        return total;
+    }
+
     // Method to add a product to the cart
     public void addCartItem(Product product, int quantity) {
         // Check if the product is already in the cart
@@ -33,12 +37,14 @@ public class Cart {
     }
 
     // Method to remove a product from the cart
-    public void removeFromCart(Product product) {
+    public boolean removeFromCart(Product product) {
         CartItem cartItem = findCartItem(product);
         if (cartItem != null) {
             shoppingList.remove(cartItem);
             updateTotal();
+            return true;
         }
+        return false;
     }
 
     // Method to update the quantity of a product in the cart
@@ -80,7 +86,7 @@ public class Cart {
     private void updateTotal() {
         total = 0.0f;
         for (CartItem cartItem : shoppingList) {
-            total += cartItem.getSubtotal();
+            total += cartItem.getTotalCost();
         }
     }
 
@@ -106,18 +112,18 @@ class CartItem {
     }
 
     public Product getProduct() {
-        return product;
+        return this.product;
     }
 
     public int getQuantity() {
-        return quantity;
+        return this.quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public float getSubtotal() {
+    public float getTotalCost() {
         return product.getProductPrice() * quantity;
     }
 
@@ -126,7 +132,7 @@ class CartItem {
         return "CartItem{" +
                 "product=" + product +
                 ", quantity=" + quantity +
-                ", subtotal=$" + getSubtotal() +
+                ", subtotal=$" + getTotalCost() +
                 '}';
     }
 }

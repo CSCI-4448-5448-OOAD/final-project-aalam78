@@ -21,6 +21,38 @@ public class ProductDAO {
         }
     }
 
+    public Product getProductById(int productID) {
+        String selectQuery = "SELECT * FROM product WHERE ProductID = ?";
+
+        System.out.println("Searching for product with ID " + productID);
+        try {
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+            preparedStatement.setInt(1, productID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                // Retrieve product details from the ResultSet
+                String name = resultSet.getString("Name");
+                String description = resultSet.getString("Description");
+                double price = resultSet.getDouble("Price");
+                double productWeight = resultSet.getDouble("ProductWeight");
+
+                // Create and return a Product instance
+                Product p = new Product(name, description, (float) price,
+                        (float) productWeight);
+                p.setProductID(productID);
+                System.out.println("Product found: " + p);
+                return p;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Return null if product with the given ID is not found
+    }
+
     public int insertProduct(String name,
                                      String  description, double price,
                                      double productWeight, int warranty) {
@@ -110,7 +142,7 @@ public class ProductDAO {
             }
     }
 
-    public static void readAllProducts() {
+    public void readAllProducts() {
 
         String selectQuery = "SELECT * FROM product";
 

@@ -18,6 +18,9 @@ public class Customer extends User {
         this.shippingInfo = shippingInfo;
     }
 
+    public String getShippingInfo() {
+        return shippingInfo;
+    }
     // Methods
     public void updateProfile() {
         // Logic to update customer profile
