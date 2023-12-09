@@ -1,8 +1,6 @@
 package com.scm;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseConnection {
 
@@ -18,12 +16,12 @@ public class DatabaseConnection {
 
     public static Connection getConnection() {
         if (connection == null) {
-            createConnection();
+            createSingletonConnection();
         }
         return connection;
     }
 
-    private static void createConnection() {
+    private static void createSingletonConnection() {
         try {
             connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
         } catch (SQLException e) {
