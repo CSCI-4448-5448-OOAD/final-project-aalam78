@@ -1,3 +1,5 @@
+
+/*
 package com.scm;
 
 import java.sql.*;
@@ -96,3 +98,4 @@ public class ProductDAO {
         }
     }
 }
+*/

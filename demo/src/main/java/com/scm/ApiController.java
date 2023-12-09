@@ -21,27 +21,30 @@ public class ApiController {
         this.product = product;
     }
 
-     @PostMapping("/products")
-    public ResponseEntity<Product> createProduct(@RequestBody ProductDetails productDetails) {
-        Product createdProduct = product.createProduct(productDetails);
+    @PostMapping("/products")
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product createdProduct = Product.createProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
+    
 
     @PutMapping("/products")
-    public ResponseEntity<Product> updateProduct(@RequestBody ProductDetails productDetails) {
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
         // Implementation logic to update a product
         // ...
 
-        return ResponseEntity.ok(/* Updated product */);
+        return ResponseEntity.ok
+        //( Updated product );
     }
 
     @PutMapping("/products/{productId}")
-    public ResponseEntity<Product> updateProduct(
-            @PathVariable int productId,
-            @RequestBody ProductDetails productDetails) {
-        // Implementation
-        return ResponseEntity.ok(/* Updated product */);
-    }
+public ResponseEntity<Product> updateProduct(
+        @PathVariable int productId,
+        @RequestBody Product product) {
+    // Implementation
+    // You need to implement logic to update the existing product using productId and product
+    return ResponseEntity.ok(/* Updated product */);
+}
 
 
     
@@ -50,7 +53,8 @@ public class ApiController {
         // Implementation logic for user login
         // ...
 
-        return ResponseEntity.ok(/* Logged-in user */);
+        return ResponseEntity.ok
+        //Logged-in user );
     }
 
     @PostMapping("/reports")
@@ -58,7 +62,8 @@ public class ApiController {
         // Implementation logic to generate a report
         // ...
 
-        return ResponseEntity.ok(/* Created report */);
+        return ResponseEntity.ok
+        //Created report);
     }
 
     @DeleteMapping("/exit")
@@ -71,7 +76,7 @@ public class ApiController {
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> showAllProducts() {
-        List<Product> products = product.getAllProducts();
+        List<Product> products = Product.getAllProducts();
         return ResponseEntity.ok(products);
     }
 

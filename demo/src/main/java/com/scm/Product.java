@@ -1,6 +1,7 @@
 package com.scm;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Product {
     private int productID;
@@ -69,4 +70,12 @@ public class Product {
                 ", Description: " + description +
                 ", Price: " + price +
                 ", Weight: " + productWeight;}
+
+    public static List<Product> getAllProducts() {
+        return null;
+    }
+
+    public static Product createProduct(Product product) {
+        return null;
+    }
 }
