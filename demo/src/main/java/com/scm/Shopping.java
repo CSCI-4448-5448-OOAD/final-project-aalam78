@@ -12,9 +12,11 @@ public class Shopping extends Customer {
     private HashMap<Integer, Product> cart;
 
     // Constructor
-    public Shopping(int userID, String userName, String email, String password, Date registerDate,
+    public Shopping(int userID, String userName, String email,
+                    String password,  Date registerDate,
                     String shippingInfo, String customerName, Address address) {
-        super(userID, userName, email, password, registerDate, shippingInfo, customerName, address);
+        super(userID, userName, email, password, registerDate, shippingInfo,
+                customerName, address);
         this.wishList = new ArrayList<>();
         this.cart = new HashMap<>();
     }
@@ -82,4 +84,16 @@ public class Shopping extends Customer {
     public List<Order> getOrderHistory() {
         return orderHistory;
     }
+
+    @Override
+    public String toString() {
+        return "Shopping{" +
+                super.toString() +  // Using super.toString() to include
+                // fields from the superclass
+                ", wishList=" + wishList +
+                ", orderHistory=" + orderHistory +
+                ", cart=" + cart +
+                '}';
+    }
+
 }

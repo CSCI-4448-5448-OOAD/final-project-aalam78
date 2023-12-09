@@ -25,9 +25,12 @@ public class Order extends Customer {
 
 
     // Constructors
-    public Order(int orderID, String status, HashMap<Integer, Product> products, String dateCreated,
-                 float unitCost, Payment paymentType, ShippingInfo shippingInfo, int userID, String userName,
-                 String email, String password, Date registerDate, String customerName, Address address) {
+    public Order(int orderID, String status,
+                 HashMap<Integer, Product> products,  String dateCreated,
+                 float unitCost, Payment paymentType,
+                 ShippingInfo shippingInfo, int userID, String userName,
+                 String email, String password, Date registerDate,
+                 String customerName, Address address) {
         super(userID, userName, email, password, registerDate, String.valueOf(shippingInfo), customerName, address);
         this.orderID = orderID;
         this.status = status;
