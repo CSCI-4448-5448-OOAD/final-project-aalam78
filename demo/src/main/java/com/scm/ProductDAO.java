@@ -1,12 +1,16 @@
 package com.scm;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.HashMap;
 
-import static com.scm.DatabaseConnection.getConnection;
 import static com.scm.DatabaseConnection.handleSQLException;
 
 public class ProductDAO {
+
+    private Connection getConnection() {
+        return DatabaseConnection.getConnection();
+    }
     // Method to insert a product into the database
     public void addProductToDB(Product product, HashMap<Integer, Product> productMap) {
         int productID = insertProduct(product.getProductName(),
@@ -17,7 +21,7 @@ public class ProductDAO {
         }
     }
 
-    public static int insertProduct(String name,
+    public int insertProduct(String name,
                                      String  description, double price,
                                      double productWeight, int warranty) {
         String selectQuery = "SELECT * FROM product WHERE Name = ?";
@@ -81,7 +85,6 @@ public class ProductDAO {
         try {
             PreparedStatement preparedStatement =
                     connection.prepareStatement(selectQuery);
-//            preparedStatement.setInt(1, productId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -112,7 +115,7 @@ public class ProductDAO {
         String selectQuery = "SELECT * FROM product";
 
         try {
-            Connection connection = getConnection();
+            Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(selectQuery);
 

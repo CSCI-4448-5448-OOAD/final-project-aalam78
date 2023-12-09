@@ -16,10 +16,11 @@ public class ScmApplication {
                         "This laptop is mediocre.", 500, 2.5f);
         ProductDAO productDAO = new ProductDAO();
         productDAO.addProductToDB(product, Product.productMap);
-
-        //System.out.println(Product.productMap);
         readAllProducts();
 
+        CustomerDAO customerDAO = new CustomerDAO();
+        Shopping shopper = customerDAO.getShopperById(1);
+        System.out.println(shopper);
     }
 }
 

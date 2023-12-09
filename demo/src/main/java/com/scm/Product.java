@@ -71,5 +71,6 @@ public class Product {
                 ", Name: " + name +
                 ", Description: " + description +
                 ", Price: " + price +
-                ", Weight: " + productWeight;}
+                ", Weight: " + productWeight;
+    }
 }
