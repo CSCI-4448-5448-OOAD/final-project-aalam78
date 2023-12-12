@@ -3,7 +3,8 @@ package com.scm;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.scm.Product;
+import com.scm.Report.ReportService;
 import java.util.List;
 
 @RestController
@@ -99,24 +100,71 @@ public class ApiController {
         }
     }
 
-    /* 
-
-
     @PostMapping("/login")
     public ResponseEntity<User> loginUser(@RequestBody User userDetails) {
-        // Implementation logic for user login
-        // ...
+        // Assuming you have a service class to handle user authentication
+        // You might want to inject a UserService or AuthenticationService
+        // and call a method like authenticateUser(userDetails) in the service
 
-        return ResponseEntity.ok(); Logged-in user 
+        boolean isAuthenticated = authenticateUser(userDetails);
+
+        if (isAuthenticated) {
+            // If authentication is successful, return the logged-in user
+            return ResponseEntity.ok(userDetails);
+        } else {
+            // If authentication fails, return an unauthorized status
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
-    @PostMapping("/reports")
-    public ResponseEntity<Report> createReport() {
-        // Implementation logic to generate a report
-        // ...
+        // Example authentication method (replace it with your actual logic)
+        private boolean authenticateUser(User userDetails) {
+            // Your authentication logic goes here
+            // This is just a placeholder, replace it with your actual authentication logic
 
-        return ResponseEntity.ok(); //Created report
+            // For example, you might check against a database or use Spring Security
+            // In this example, we'll assume a hardcoded username and password for simplicity
+
+            String expectedUsername = "admin";
+            String expectedPassword = "password";
+
+            return expectedUsername.equals(userDetails.getUserName()) &&
+                expectedPassword.equals(userDetails.getPassword());
+        }
+
+    
+
+
+
+    
+
+        @PostMapping("/reports")
+public ResponseEntity<Report> createReport(@RequestBody ReportService reportDetails) {
+    try {
+        // Pass the required parameters for Report instantiation
+        Report report = new Report(0, null, 0/* userID, reportType, reportID */);
+    
+        // Create ReportService using the specific instance of Report
+        ReportService reportService = report.new ReportService();
+    
+        // You may need to map ReportDetails to Report
+        // For simplicity, let's assume you have a method like mapToReport in ReportService
+        Report mappedReport = reportService.mapToReport(reportDetails);
+    
+        // Generate the report
+        reportService.generateReport(mappedReport);
+    
+        // Return the created report in the response body
+        return ResponseEntity.ok(mappedReport);
+    } catch (Exception e) {
+        // Log the exception
+        e.printStackTrace();
+    
+        // Return an error response
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+}
+
 
     @DeleteMapping("/exit")
     public ResponseEntity<Void> exit() {
@@ -128,13 +176,27 @@ public class ApiController {
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> browseProduct() {
-        // Implementation logic to retrieve and return a list of products
-        // ...
+        try {
+            // Assuming you have a ProductService to handle product-related operations
+            List<Product> productList = Product.getAllProducts();
 
-        return ResponseEntity.ok(); //List of products 
+            // Check if the product list is not empty
+            if (!productList.isEmpty()) {
+                // Return the list of products in the response body
+                return ResponseEntity.ok(productList);
+            } else {
+                // If the list is empty, return a not found response
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+
+            // Return an error response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     
-    */
 
     // Similar implementations for other endpoints (sort, search, getUser, getStock, getOrder, getProduct)
 }

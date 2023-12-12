@@ -26,6 +26,7 @@ public class User {
         this.loginStatus = false; // Default login status
         this.registerDate = registerDate;
 
+
         // Add the user to the userMap
         userMap.put(userID, this);
     }
@@ -69,6 +70,8 @@ public class User {
 
     public static void removeUserFromDB(int userID) {
         userMap.remove(userID);
+
+        
     }
 
     // toString method
@@ -82,6 +85,10 @@ public class User {
                 ", loginStatus=" + loginStatus +
                 ", registerDate=" + dateFormat.format(registerDate) +
                 '}';
+    }
+
+    public Object getPassword() {
+        return null;
     }
 
 }

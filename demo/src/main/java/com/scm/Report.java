@@ -25,8 +25,32 @@ public class Report {
         this.orderReport = new ArrayList<>();
         //this.stockReport = new Stock(); // Assuming Stock class exists
         // Assuming you have the required data for Stock creation
+        Report.ReportService reportService = new Report.ReportService();
+
 
         //this.stockReport = new Stock(availableProducts, stockAmount, amountOfProduct);
+    }
+
+    public class ReportService {
+    
+        public int getUserID() {
+            return userID;
+        }
+    
+        public String getReportType() {
+            return reportType;
+        }
+    
+        public int getReportID() {
+            return reportID;
+        }
+
+        public Report mapToReport(ReportService reportDetails) {
+            return null;
+        }
+
+        public void generateReport(Report report) {
+        }
     }
 
     // Method to initialize the report
@@ -40,4 +64,5 @@ public class Report {
         // Logic to schedule the report based on the specified interval
         System.out.println("Report scheduled. Interval: " + intervalInDays + " days");
     }
+    
 }

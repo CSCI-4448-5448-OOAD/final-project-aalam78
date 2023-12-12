@@ -1,6 +1,7 @@
 package com.scm;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 public class Product {
@@ -93,5 +94,9 @@ public class Product {
 
     public void setProductWeight(float productWeight) {
         this.productWeight = productWeight;
+    }
+
+    public static List<Product> getAllProducts() {
+        return null;
     }
 }

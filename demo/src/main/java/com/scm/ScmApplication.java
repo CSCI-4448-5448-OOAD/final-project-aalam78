@@ -6,11 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ScmApplication {
 
     public static void main(String[] args) {
-        System.out.println("No way");
-
-
-
-     //SpringApplication.run(ScmApplication.class, args);
+//        SpringApplication.run(ScmApplication.class, args);
         String productType = "Electronic"; // or "Furniture"
         AbstractProductFactory factory =
                 ProductFactoryProvider.createFactory(productType);
@@ -18,14 +14,11 @@ public class ScmApplication {
                 factory.createProduct("MacBook Pro 2019",
                         "This laptop is mediocre.", 500, 2.5f);
 
-
-
-        
         ProductDAO productDAO = new ProductDAO();
         productDAO.addProductToDB(product, Product.productMap);
 
         productType = "Furniture"; // or "Furniture"
-        factory = com.scm.ProductFactoryProvider.createFactory(productType);
+        factory = ProductFactoryProvider.createFactory(productType);
         product = factory.createProduct("Sofa",
                         "Amazing footon sofa.", 200, 21f);
 
@@ -39,19 +32,72 @@ public class ScmApplication {
         shopper.addToCart(2);
 
         OrderDAO orderDAO = new OrderDAO();
+        // if i receive payment than only i will consider the order as placed
+        // if payment is not done, than order is not placed
+
+
         orderDAO.placeOrder(shopper);
+
+        // check if the order is placed
+        Cart cart = shopper.getICart();
+        // show cart items
+        System.out.println("Cart Items:");
+        // check if the cart is empty
+        cart.viewCart();
+        cart.readCartItems();
+
+       // implement observer pattern here for order class
+        // update the order status
+        // Implement logic for the checkout process
+        // checkout the cart
+        shopper.checkout();
+
+        // check if the cart is empty
+        cart.viewCart();
+        cart.readCartItems();
+        // check if the order is placed
+
+
+
+
+        //update total quantity in order_item table
+
+/*
         // remove the product from the database
-        
-        /* 
         ProductDAO.removeProductFromDB(product, Product.productMap);
         // check if the product is removed from the database
         productDAO.readAllProducts();
         //method to read cart items
-        shopper.getICart().Cart.readCartItems();
-        // check if the product is removed from the shopping cart of the shopper
-        shopper.getICart().Cart.readCartItems();
 
-        // Check if the product is removed from the order
+
+
+
+
+
+
+        // observer pattern implementation to tracks the order status]
+        // Create an order observer
+/*
+        // Create an observer
+        OrderObserver observer = new OrderStatusObserver();
+
+        // Register the observer with the order
+        addObserver(observer);
+
+        // Perform some actions that change the order status
+        order.changeOrderStatus("Processing");
+
+        // Add more observers if needed
+        // OrderObserver anotherObserver = new AnotherOrderObserver();
+        // order.addObserver(anotherObserver);
+
+        // Perform more actions that change the order status
+        order.changeOrderStatus("Shipped");
+
+        // Implement the observer pattern to track the order status
+
+
+    /*    // Check if the product is removed from the order
         orderDAO.readAllOrders();
 
         // Update the product price
@@ -63,13 +109,11 @@ public class ScmApplication {
         orderDAO.updateOrderStatus(1, "Delivered");
         // Check if the order status is updated
         orderDAO.readAllOrders();
-
-        /* */
     }
-}
+} */
         // Update the order status in the database so that the observers are
         // notified
         // add observer pattern implementation here
 
-    //}
-//}
+    }
+}

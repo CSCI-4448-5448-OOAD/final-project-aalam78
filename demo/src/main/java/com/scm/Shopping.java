@@ -11,7 +11,7 @@ public class Shopping extends Customer {
     private List<Order> orderHistory;
     private HashMap<Integer, Product> cart;
 
-    private Cart icart;
+    private static Cart icart;
 
     ProductDAO productDAO;
 
@@ -27,7 +27,7 @@ public class Shopping extends Customer {
         this.icart = new Cart(userID);
     }
 
-    public Cart getICart() {
+    public static Cart getICart() {
         return icart;
     }
 
@@ -48,9 +48,19 @@ public class Shopping extends Customer {
         }
     }
 
+    public void checkout() {
+        /* If the checkout process is successful, reset the cart */
+        //mention date shipped and date delivered
+        PaymentDao paymentDao = new PaymentDao();
+        paymentDao.processPayments(getUserID());
+         icart.clearCart();
+        // Log a successful checkout
+        System.out.println("Checkout successful for shopper: " + getUserName());
+
+    }
 
 
-/* public void removeFromCart(int productID) {
+    public void removeFromCart(int productID) {
         Product product = productDAO.getProductById(productID);
         if (product != null) {
             boolean isProductRemoved =
@@ -70,24 +80,7 @@ public class Shopping extends Customer {
         }
     }
 
-    public void removeFromCart(int productID) {
-        Product product = productDAO.getProductById(productID);
 
-        if (product == null) {
-            System.out.println("RemoveFromCart: Product with ID " + productID + " not found in the database.");
-            return;
-        }
-
-        boolean isProductRemoved = icart.removeFromCart(product);
-
-        if (isProductRemoved) {
-            System.out.println(product.getProductName() + " removed from cart for " + getUserName());
-        } else {
-            System.out.println("RemoveFromCart: Product with ID " + productID + " not found in the cart.");
-        }
-    }
-
-*/
     public void addToWishList(Product product) {
         wishList.add(product);
         System.out.println(product.getProductName() + " added to wishlist for " + getUserName());
