@@ -38,5 +38,6 @@
         "**/bin",
         "**/archetype-resources"
     ],
-    "java.configuration.maven.userSettings": "./settings.xml"
+    "java.configuration.maven.userSettings": "./settings.xml",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

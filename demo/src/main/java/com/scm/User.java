@@ -2,6 +2,8 @@ package com.scm;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.text.SimpleDateFormat;
+
 
 public class User {
     // Attributes
@@ -68,4 +70,18 @@ public class User {
     public static void removeUserFromDB(int userID) {
         userMap.remove(userID);
     }
+
+    // toString method
+    @Override
+    public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return "User{" +
+                "userID=" + userID +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", loginStatus=" + loginStatus +
+                ", registerDate=" + dateFormat.format(registerDate) +
+                '}';
+    }
+
 }

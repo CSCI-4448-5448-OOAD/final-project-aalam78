@@ -6,8 +6,11 @@ public class Customer extends User {
     private Address address;
     private String shippingInfo;
 
+    private Cart shoppingCart;
+
     // Constructor
-    public Customer(int userID, String userName, String email, String password, Date registerDate,
+    public Customer(int userID, String userName, String email,
+                    String password,  Date registerDate,
                     String shippingInfo, String customerName, Address address) {
         super(userID, userName, email, password, registerDate);
         this.customerName = customerName;
@@ -15,6 +18,9 @@ public class Customer extends User {
         this.shippingInfo = shippingInfo;
     }
 
+    public String getShippingInfo() {
+        return shippingInfo;
+    }
     // Methods
     public void updateProfile() {
         // Logic to update customer profile
@@ -36,4 +42,15 @@ public class Customer extends User {
         System.out.println("Customer name updated to " + newCustomerName);
     }
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                super.toString() +  // Using super.toString() to include
+                // fields  from the superclass
+                ", customerName='" + customerName + '\'' +
+                ", address= " + address +
+                ", shippingInfo='" + shippingInfo + '\'' +
+                ", shoppingCart=" + shoppingCart +
+                '}';
+    }
 }

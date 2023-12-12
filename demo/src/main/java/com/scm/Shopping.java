@@ -11,17 +11,83 @@ public class Shopping extends Customer {
     private List<Order> orderHistory;
     private HashMap<Integer, Product> cart;
 
+    private Cart icart;
+
+    ProductDAO productDAO;
+
     // Constructor
-    public Shopping(int userID, String userName, String email, String password, Date registerDate,
+    public Shopping(int userID, String userName, String email,
+                    String password,  Date registerDate,
                     String shippingInfo, String customerName, Address address) {
-        super(userID, userName, email, password, registerDate, shippingInfo, customerName, address);
+        super(userID, userName, email, password, registerDate, shippingInfo,
+                customerName, address);
         this.wishList = new ArrayList<>();
         this.cart = new HashMap<>();
+        this.productDAO = new ProductDAO();
+        this.icart = new Cart(userID);
+    }
+
+    public Cart getICart() {
+        return icart;
+    }
+
+    public List<Product> getWishList() {
+        return wishList;
+    }
+
+    public void addToCart(int productID) {
+        Product product = productDAO.getProductById(productID);
+        if (product != null) {
+            icart.addCartItem(product, 1);
+            System.out.println(product.getProductName() + " added to cart for" +
+                    " "  + getUserName());
+        } else {
+            System.out.println("AddToCart: Product with ID " + productID + " " +
+                    "not found " +
+                    "in  the database.");
+        }
     }
 
 
-    // Additional methods for the Shopping class
 
+/* public void removeFromCart(int productID) {
+        Product product = productDAO.getProductById(productID);
+        if (product != null) {
+            boolean isProductRemoved =
+                    icart.removeFromCart(productDAO.getProductById(productID));
+            if (isProductRemoved) {
+                System.out.println( product.getProductName() + " removed from" +
+                        " cart for " +  getUserName());
+            } else {
+                System.out.println("RemoveFromCart: Product with ID " +
+                        productID + " not " + "found in the cart.");
+            }
+        } else {
+            System.out.println("RemoveFromCart: Product with ID " + productID +
+                    " not found" +
+                    " " +
+                    "in  the database.");
+        }
+    }
+
+    public void removeFromCart(int productID) {
+        Product product = productDAO.getProductById(productID);
+
+        if (product == null) {
+            System.out.println("RemoveFromCart: Product with ID " + productID + " not found in the database.");
+            return;
+        }
+
+        boolean isProductRemoved = icart.removeFromCart(product);
+
+        if (isProductRemoved) {
+            System.out.println(product.getProductName() + " removed from cart for " + getUserName());
+        } else {
+            System.out.println("RemoveFromCart: Product with ID " + productID + " not found in the cart.");
+        }
+    }
+
+*/
     public void addToWishList(Product product) {
         wishList.add(product);
         System.out.println(product.getProductName() + " added to wishlist for " + getUserName());
@@ -30,33 +96,6 @@ public class Shopping extends Customer {
     public void removeFromWishList(Product product) {
         wishList.remove(product);
         System.out.println(product.getProductName() + " removed from wishlist for " + getUserName());
-    }
-
-    public List<Product> getWishList() {
-        return wishList;
-    }
-
-    public void addToCart(int productID) {
-        Product product = Product.getProductFromDB(productID, Product.productMap);
-        if (product != null) {
-            cart.put(productID, product);
-            System.out.println(product.getProductName() + " added to cart for " + getUserName());
-        } else {
-            System.out.println("Product with ID " + productID + " not found in the database.");
-        }
-    }
-
-    public void removeFromCart(int productID) {
-        Product product = cart.remove(productID);
-        if (product != null) {
-            System.out.println(product.getProductName() + " removed from cart for " + getUserName());
-        } else {
-            System.out.println("Product with ID " + productID + " not found in the cart.");
-        }
-    }
-
-    public HashMap<Integer, Product> getCart() {
-        return cart;
     }
 
     // Override the updateProfile method to include additional logic for the Shopping class
@@ -82,4 +121,16 @@ public class Shopping extends Customer {
     public List<Order> getOrderHistory() {
         return orderHistory;
     }
+
+    @Override
+    public String toString() {
+        return "Shopping{" +
+                super.toString() +  // Using super.toString() to include
+                // fields from the superclass
+                ", wishList=" + wishList +
+                ", orderHistory=" + orderHistory +
+                ", cart=" + cart +
+                '}';
+    }
+
 }

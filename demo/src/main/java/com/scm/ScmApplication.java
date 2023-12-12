@@ -1,131 +1,64 @@
 package com.scm;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import static com.scm.ProductDAO.readAllProducts;
-
 @SpringBootApplication
 public class ScmApplication {
 
     public static void main(String[] args) {
-        // Initialize the cart
-        Cart cart = new Cart(1);
+//        SpringApplication.run(ScmApplication.class, args);
+        String productType = "Electronic"; // or "Furniture"
+        AbstractProductFactory factory =
+                ProductFactoryProvider.createFactory(productType);
+        Product product =
+                factory.createProduct("MacBook Pro 2019",
+                        "This laptop is mediocre.", 500, 2.5f);
 
-        // Add products to the cart
-        ElectronicProductFactory electronicProductFactory = new ElectronicProductFactory();
-        Product electronicProduct = electronicProductFactory.createProduct(3, "MacBook Pro 2019", "This laptop is mediocre.", 500, 2.5f);
-        cart.addCartItem(electronicProduct, 2);
+        ProductDAO productDAO = new ProductDAO();
+        productDAO.addProductToDB(product, Product.productMap);
 
-        // Set the payment strategy (you can choose between CreditCardPayment or PayPalPayment)
-        PaymentStrategy paymentStrategy = new CreditCardPayment("1234-5678-9101-1121", "12/24", "123");
-        cart.setPaymentStrategy(paymentStrategy);
+        productType = "Furniture"; // or "Furniture"
+        factory = ProductFactoryProvider.createFactory(productType);
+        product = factory.createProduct("Sofa",
+                        "Amazing footon sofa.", 200, 21f);
 
-        // View the cart contents before checkout
-        cart.viewCart();
+        productDAO.addProductToDB(product, Product.productMap);
+        productDAO.readAllProducts();
 
-        // Perform checkout
-        cart.checkout();
+        CustomerDAO customerDAO = new CustomerDAO();
+        Shopping shopper = customerDAO.getShopperById(1);
+        System.out.println(shopper);
+        shopper.addToCart(1);
+        shopper.addToCart(2);
 
-        // After checkout, the cart will be reset
-        cart.viewCart();
+        OrderDAO orderDAO = new OrderDAO();
+        orderDAO.placeOrder(shopper);
+        // remove the product from the database
+        ProductDAO.removeProductFromDB(product, Product.productMap);
+        // check if the product is removed from the database
+        productDAO.readAllProducts();
+        //method to read cart items
+        shopper.getICart().Cart.readCartItems();
+        // check if the product is removed from the shopping cart of the shopper
+        shopper.getICart().Cart.readCartItems();
 
-        // If you want to read and display all products, you can uncomment the following line
-        // readAllProducts();
+        // Check if the product is removed from the order
+        orderDAO.readAllOrders();
+
+        // Update the product price
+        productDAO.updateProductPrice(1, 2000);
+        // Check if the product price is updated
+        productDAO.readAllProducts();
+
+        // Update the order status
+        orderDAO.updateOrderStatus(1, "Delivered");
+        // Check if the order status is updated
+        orderDAO.readAllOrders();
     }
 }
+        // Update the order status in the database so that the observers are
+        // notified
+        // add observer pattern implementation here
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 
-
-import java.util.List;
-import java.util.Map;
-
-@SpringBootApplication
-public class ScmApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(ScmApplication.class, args);
     }
 }
-
-@RestController
-@RequestMapping("/api/cart")
-class CartController {
-    private final Cart cart;
-    private final Map<Integer, Product> productDatabase;  // Assuming you have a global product database
-
-    public CartController(Cart cart, Map<Integer, Product> productDatabase) {
-        this.cart = cart;
-        this.productDatabase = productDatabase;
-    }
-
-    @GetMapping("/products")
-    public List<Product> getProductCatalog() {
-        // Get products from the global product database
-        return List.copyOf(productDatabase.values());
-    }
-
-    @PostMapping("/add-to-cart")
-    public void addToCart(@RequestBody CartItemRequest cartItemRequest) {
-        // Get the product from the global product database
-        Product product = productDatabase.get(cartItemRequest.getProductId());
-
-        if (product != null) {
-            // Add items to the cart
-            cart.addCartItem(product, cartItemRequest.getQuantity());
-        } else {
-            throw new IllegalArgumentException("Product not found with ID: " + cartItemRequest.getProductId());
-        }
-    }
-
-    @GetMapping("/view-cart")
-    public void viewCart() {
-        // Simulate viewing the cart
-        cart.viewCart();
-    }
-
-    @PostMapping("/checkout")
-    public void checkout() {
-        // Simulate the checkout process
-        cart.checkout();
-    }
-
-    static class CartItemRequest {
-        private int productId;
-        private int quantity;
-
-        // getters and setters
-
-        public int getProductId() {
-            return productId;
-        }
-
-        public void setProductId(int productId) {
-            this.productId = productId;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
-        }
-    }
-}
-*/
