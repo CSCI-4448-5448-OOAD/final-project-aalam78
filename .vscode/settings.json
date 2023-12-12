@@ -9,20 +9,7 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MySQL",
-            "name": "OOAD-Final",
-            "database": "OOAD-Final",
-            "username": "root"
-        },
-        {
-            "mysqlOptions": {
-                "authProtocol": "default",
-                "enableSsl": "Disabled"
-            },
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 3306,
-            "driver": "MySQL",
-            "name": "OOAD-Final",
+            "name": "OOAD-final",
             "database": "ooad-final-db",
             "username": "root"
         }

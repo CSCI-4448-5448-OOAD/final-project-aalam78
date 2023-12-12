@@ -7,7 +7,7 @@ public class Stock {
     private List<Product> availableProducts;
     private int amount;
     private HashMap<Integer, Product> amountOfProduct;
-    private HashMap<Integer, Stock> stockMap = new HashMap<>();  // Made static;
+    static HashMap<Integer, Stock> stockMap = new HashMap<>();  // Made static;
 
     // Constructor
     public Stock(List<Product> availableProducts, int amount, HashMap<Integer, Product> amountOfProduct) {
@@ -15,6 +15,40 @@ public class Stock {
         this.amount = amount;
         this.amountOfProduct = amountOfProduct;
     }
+
+      // Getter and Setter methods
+
+      public List<Product> getAvailableProducts() {
+        return availableProducts;
+    }
+
+    public void setAvailableProducts(List<Product> availableProducts) {
+        this.availableProducts = availableProducts;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public HashMap<Integer, Product> getAmountOfProduct() {
+        return amountOfProduct;
+    }
+
+    public void setAmountOfProduct(HashMap<Integer, Product> amountOfProduct) {
+        this.amountOfProduct = amountOfProduct;
+    }
+    // Method to get a stock from the database based on productID
+    public static Stock getStockFromDB(int productID) {
+        // Return the corresponding Stock object or null if not found
+        // Example:
+        // return stockMap.get(productID);
+        return null; // Replace this with your implementation
+    }
+    
 
     // Methods
     public Stock getStock(int stockID) {
@@ -53,5 +87,15 @@ public class Stock {
 
     public void addStockToDB(int stockID, Stock stock) {
         stockMap.put(stockID, stock);
+    }
+
+     // Add this static method to get a Stock from the stockMap
+     public static Stock getStockFromMap(int productID) {
+        return stockMap.get(productID);
+    }
+
+     // Add this static method to add/update a Stock in the stockMap
+     public static void addOrUpdateStock(int productID, Stock stock) {
+        stockMap.put(productID, stock);
     }
 }

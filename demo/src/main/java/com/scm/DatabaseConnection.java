@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class DatabaseConnection {
 
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/ooad_final";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/ooad-final-db";
     private static final String USER = "root";
-    private static final String PASSWORD = "ooad123";
+    private static final String PASSWORD = "Marshmallow42069$$";
 
     private static Connection connection;
 
@@ -57,9 +57,7 @@ public class DatabaseConnection {
             }
         }
     }
-
-
-
+    
     static void handleSQLException(SQLException e) {
         System.err.println("SQL Exception occurred:");
         System.err.println("SQL State: " + e.getSQLState());

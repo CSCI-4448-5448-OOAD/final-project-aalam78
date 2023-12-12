@@ -20,7 +20,7 @@ public class ScmApplication {
 
 
 
-        /* 
+        
         ProductDAO productDAO = new ProductDAO();
         productDAO.addProductToDB(product, Product.productMap);
 
@@ -42,7 +42,7 @@ public class ScmApplication {
         orderDAO.placeOrder(shopper);
         // remove the product from the database
         
-        
+        /* 
         ProductDAO.removeProductFromDB(product, Product.productMap);
         // check if the product is removed from the database
         productDAO.readAllProducts();

@@ -74,7 +74,24 @@ public class Product {
                 ", Weight: " + productWeight;
     }
 
+    //Setter Methods
     public void setProductID(int productID) {
         this.productID = productID;
+    }
+      // Setter methods
+      public void setProductName(String name) {
+        this.name = name;
+    }
+
+    public void setProductDescription(String description) {
+        this.description = description;
+    }
+
+    public void setProductPrice(float price) {
+        this.price = price;
+    }
+
+    public void setProductWeight(float productWeight) {
+        this.productWeight = productWeight;
     }
 }
