@@ -11,8 +11,10 @@ public class ProductDAO {
     private Connection getConnection() {
         return DatabaseConnection.getConnection();
     }
+
     // Method to insert a product into the database
-    public void addProductToDB(Product product, HashMap<Integer, Product> productMap) {
+    public void addProductToDB(Product product,
+                               HashMap<Integer, Product> productMap) {
         int productID = insertProduct(product.getProductName(),
                 product.getProductDescription(), product.getProductPrice(),
                 product.getProductWeight(), product.getWarranty());
@@ -27,7 +29,8 @@ public class ProductDAO {
         System.out.println("Searching for product with ID " + productID);
         try {
             Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    selectQuery);
             preparedStatement.setInt(1, productID);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -54,8 +57,8 @@ public class ProductDAO {
     }
 
     public int insertProduct(String name,
-                                     String  description, double price,
-                                     double productWeight, int warranty) {
+                             String description, double price,
+                             double productWeight, int warranty) {
         String selectQuery = "SELECT * FROM product WHERE Name = ?";
         String insertQuery = "INSERT INTO product (Name, " +
                 "Description, Price, ProductWeight, Warranty) VALUES (?, ?, " +
@@ -120,26 +123,26 @@ public class ProductDAO {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-                // Get metadata to get column names
-                var resultSetMetaData = resultSet.getMetaData();
-                int columnCount = resultSetMetaData.getColumnCount();
+            // Get metadata to get column names
+            var resultSetMetaData = resultSet.getMetaData();
+            int columnCount = resultSetMetaData.getColumnCount();
 
-                // Print column names
+            // Print column names
+            for (int i = 1; i <= columnCount; i++) {
+                System.out.print(resultSetMetaData.getColumnName(i) + "\t");
+            }
+            System.out.println();
+
+            // Print each row
+            while (resultSet.next()) {
                 for (int i = 1; i <= columnCount; i++) {
-                    System.out.print(resultSetMetaData.getColumnName(i) + "\t");
+                    System.out.print(resultSet.getString(i) + "\t");
                 }
                 System.out.println();
-
-                // Print each row
-                while (resultSet.next()) {
-                    for (int i = 1; i <= columnCount; i++) {
-                        System.out.print(resultSet.getString(i) + "\t");
-                    }
-                    System.out.println();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void readAllProducts() {
@@ -158,12 +161,26 @@ public class ProductDAO {
                 float price = resultSet.getFloat("Price");
                 float productWeight = resultSet.getFloat("ProductWeight");
 
-                Product product = new Product(name, description, price, productWeight);
+                Product product = new Product(name, description, price,
+                        productWeight);
                 System.out.println(product);
             }
 
         } catch (SQLException e) {
             handleSQLException(e);
+        }
+    }
+
+    // Method to remove a product from the database (productMap)
+    public static void removeProductFromDB(Product product,
+                                           HashMap<Integer, Product> productMap) {
+        if (productMap.containsKey(product.getProductID())) {
+            productMap.remove(product.getProductID());
+            System.out.println(
+                    "Product removed from the database: " + product.getProductName());
+        } else {
+            System.out.println(
+                    "Product with ID " + product.getProductID() + " not found in the database.");
         }
     }
 }

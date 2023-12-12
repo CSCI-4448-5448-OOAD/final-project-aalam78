@@ -37,9 +37,8 @@ public class Customer extends User {
         System.out.println("Address changed for " + customerName);
     }
 
-    public void setCustomerName(String newCustomerName) {
-        this.customerName = newCustomerName;
-        System.out.println("Customer name updated to " + newCustomerName);
+    public String getCustomerName() {
+        return this.customerName;
     }
 
     @Override

@@ -12,9 +12,14 @@ public class Payment {
     public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
         this.paymentStrategy = paymentStrategy;
     }
-
+    
     public void processPayment(float amount) {
         System.out.println("Processing payment for " + paymentType);
-        paymentStrategy.makePayment(amount);
+
+        if (paymentStrategy != null) {
+            paymentStrategy.makePayment(amount);
+        } else {
+            System.out.println("Error: Payment strategy not set. Unable to process payment.");
+        }
     }
 }

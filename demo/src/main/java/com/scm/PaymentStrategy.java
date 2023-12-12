@@ -1,5 +1,5 @@
 package com.scm;
 // PaymentStrategy interface
-interface PaymentStrategy {
+public interface PaymentStrategy {
     void makePayment(float amount);
 }
