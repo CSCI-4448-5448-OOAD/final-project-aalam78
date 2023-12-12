@@ -6,7 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ScmApplication {
 
     public static void main(String[] args) {
-//        SpringApplication.run(ScmApplication.class, args);
+        System.out.println("No way");
+
+
+
+     //SpringApplication.run(ScmApplication.class, args);
         String productType = "Electronic"; // or "Furniture"
         AbstractProductFactory factory =
                 ProductFactoryProvider.createFactory(productType);
@@ -14,11 +18,14 @@ public class ScmApplication {
                 factory.createProduct("MacBook Pro 2019",
                         "This laptop is mediocre.", 500, 2.5f);
 
+
+
+        /* 
         ProductDAO productDAO = new ProductDAO();
         productDAO.addProductToDB(product, Product.productMap);
 
         productType = "Furniture"; // or "Furniture"
-        factory = ProductFactoryProvider.createFactory(productType);
+        factory = com.scm.ProductFactoryProvider.createFactory(productType);
         product = factory.createProduct("Sofa",
                         "Amazing footon sofa.", 200, 21f);
 
@@ -34,6 +41,8 @@ public class ScmApplication {
         OrderDAO orderDAO = new OrderDAO();
         orderDAO.placeOrder(shopper);
         // remove the product from the database
+        
+        
         ProductDAO.removeProductFromDB(product, Product.productMap);
         // check if the product is removed from the database
         productDAO.readAllProducts();
@@ -54,11 +63,13 @@ public class ScmApplication {
         orderDAO.updateOrderStatus(1, "Delivered");
         // Check if the order status is updated
         orderDAO.readAllOrders();
+
+        /* */
     }
 }
         // Update the order status in the database so that the observers are
         // notified
         // add observer pattern implementation here
 
-    }
-}
+    //}
+//}

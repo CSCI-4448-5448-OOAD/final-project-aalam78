@@ -39,5 +39,8 @@
         "**/archetype-resources"
     ],
     "java.configuration.maven.userSettings": "./settings.xml",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.jdt.ls.java.home": "f:\\Programs\\Java" // Adjust the path to your Java installation
 }
