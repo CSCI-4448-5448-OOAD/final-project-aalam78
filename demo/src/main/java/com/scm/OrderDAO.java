@@ -8,12 +8,12 @@ import java.sql.Statement;
 import java.util.Date;
 
 public class OrderDAO {
+
     private Connection getConnection() {
         return DatabaseConnection.getConnection();
     }
-    // Place an order and create entries in order_table and order_item
-    public void placeOrder(Shopping shopper) {
 
+    public void placeOrder(Shopping shopper) {
         if (shopper.getICart().getShoppingList().isEmpty()) {
             System.out.println("Shopping cart is empty. Please add items to " +
                     "the cart before placing the order.");
@@ -21,20 +21,20 @@ public class OrderDAO {
         }
 
         String insertOrderQuery = "INSERT INTO order_table (status, " +
-                "dateCreated,  totalCost, paymentType, shippingInfo,  " +
+                "dateCreated, totalCost, paymentType, shippingInfo, " +
                 "orderStatus, customerID) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
         String insertOrderItemQuery = "INSERT INTO order_item (orderID,  " +
-                "productID, quantity, itemCost) " +
-                "VALUES (?, ?, ?, ?)";
+                "productID, quantity, itemCost) VALUES (?, ?, ?, ?)";
 
-        try {
-            Connection connection = getConnection();
+             try {
+                 Connection connection = getConnection();
              PreparedStatement insertOrderStatement =
-                     connection.prepareStatement(insertOrderQuery,
-                     Statement.RETURN_GENERATED_KEYS);
+                     connection. prepareStatement(insertOrderQuery,
+                             Statement.RETURN_GENERATED_KEYS);
              PreparedStatement insertOrderItemStatement =
                      connection.prepareStatement(insertOrderItemQuery);
+
+            connection.setAutoCommit(false);
 
             // Set parameters for the order_table
             insertOrderStatement.setString(1,
@@ -55,41 +55,50 @@ public class OrderDAO {
             // Execute the insert query for order_table
             int orderID;
             int affectedRows = insertOrderStatement.executeUpdate();
+
             if (affectedRows > 0) {
-                try (ResultSet generatedKeys =
-                             insertOrderStatement.getGeneratedKeys()) {
+                ResultSet generatedKeys =
+                        insertOrderStatement.getGeneratedKeys();
                     if (generatedKeys.next()) {
                         orderID = generatedKeys.getInt(1);
 
                         // Set parameters for the order_item
-                        for (CartItem cartItem :
+                        for (Cart.CartItem cartItem :
                                 shopper.getICart().getShoppingList()) {
                             Product product = cartItem.getProduct();
-                            System.out.println("Executing SQL statement: " + insertOrderItemQuery +
-                                    " with parameters: orderID = " + orderID +
-                                    ", productID = " + product.getProductID() +
-                                    ", quantity = " + cartItem.getQuantity() +
-                                    ", itemCost = " + cartItem.getTotalCost());
-                            insertOrderItemStatement.setInt(1, orderID);
-                            insertOrderItemStatement.setInt(2, product.getProductID());
-                            insertOrderItemStatement.setInt(3, cartItem.getQuantity());
-                            insertOrderItemStatement.setFloat(4, cartItem.getTotalCost());
+
+                            // Set parameters for the order_item
+                            insertOrderItemStatement.setInt(1,
+                                    orderID);
+                            insertOrderItemStatement.setInt(2,
+                                    product.getProductID());
+                            insertOrderItemStatement.setInt(3,
+                                    cartItem.getQuantity());
+                            insertOrderItemStatement.setFloat(4,
+                                    cartItem.getTotalCost());
 
                             // Execute the insert query for order_item
                             insertOrderItemStatement.executeUpdate();
                         }
 
+                        // Commit the transaction
+                        connection.commit();
+
                         // Notify the customer about the order placement or update the order status as needed
-                        System.out.println("Order placed successfully! Order" +
-                                "ID:  " + orderID);
+                        System.out.println("Order placed successfully!  Order" +
+                                " ID: " + orderID);
                     }
                 }
-            } else {
+             else {
                 System.out.println("Failed to place the order.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+
         }
     }
+
+    // Update total quantity in order_item for a specific productID
+
 }
 
