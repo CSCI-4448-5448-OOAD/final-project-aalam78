@@ -1,0 +1,46 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "OOAD-Final",
+            "database": "OOAD-Final",
+            "username": "root"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "OOAD-Final",
+            "database": "ooad-final-db",
+            "username": "root"
+        }
+    ],
+    "files.watcherExclude": {
+        "**/target": true
+    },
+    "maven.excludedFolders": [
+
+        "**/.*",
+        "**/node_modules",
+        "**/target",
+        "**/bin",
+        "**/archetype-resources"
+    ],
+    "java.configuration.maven.userSettings": "./settings.xml",
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.jdt.ls.java.home": "f:\\Programs\\Java" // Adjust the path to your Java installation
+}
