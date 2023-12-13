@@ -163,6 +163,7 @@ public class ProductDAO {
 
                 Product product = new Product(name, description, price,
                         productWeight);
+                product.setProductID(productID);
                 System.out.println(product);
             }
 

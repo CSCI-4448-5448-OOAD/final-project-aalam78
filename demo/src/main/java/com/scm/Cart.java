@@ -81,11 +81,15 @@ public class Cart {
         System.out.println("Cart ID: " + cartID);
         if (!shoppingList.isEmpty()) {
             System.out.println("Date & Time Added: " + getFormattedDate());
+            System.out.println("Total: $" + total);
         }
-        System.out.println("Total: $" + total);
-        System.out.println("Shopping List:");
-        for (CartItem cartItem : shoppingList) {
-            System.out.println(cartItem.toString());
+        if (shoppingList.isEmpty()) {
+        System.out.println("Shopping List: Empty");
+        } else {
+            System.out.println("Shopping List: ");
+            for (CartItem cartItem : shoppingList) {
+                System.out.println(cartItem.toString());
+            }
         }
     }
 

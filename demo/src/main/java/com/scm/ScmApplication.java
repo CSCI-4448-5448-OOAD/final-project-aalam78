@@ -32,8 +32,10 @@ public class ScmApplication {
         shopper.addToCart(2);
 
         OrderDAO orderDAO = new OrderDAO();
+        orderDAO.clearPreviousEntries(shopper.getUserID());
         // if i receive payment than only i will consider the order as placed
         // if payment is not done, than order is not placed
+        // Clear previous entries for the user in order_table and order_item
 
 
         orderDAO.placeOrder(shopper);
@@ -56,11 +58,15 @@ public class ScmApplication {
         cart.viewCart();
         cart.readCartItems();
         // check if the order is placed
+        orderDAO.readAllOrders();
 
+       // orderDAO.updateOrderStatusAndDateShipped(1, "Shipped", new Date());
+       // orderDAO.readAllOrders();
 
 
 
         //update total quantity in order_item table
+
 
 /*
         // remove the product from the database
