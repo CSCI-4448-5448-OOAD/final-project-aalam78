@@ -15,7 +15,7 @@ public class PaymentDao {
         return DatabaseConnection.getConnection();
     }
 
-    public void processPayments(int shopperID) {
+    public int processPayments(int shopperID) {
 
         try {
             Connection connection = getConnection();
@@ -66,6 +66,7 @@ public class PaymentDao {
             // Log the exception or handle it appropriately
             e.printStackTrace();
         }
+        return shopperID;
     }
 
 

@@ -37,9 +37,6 @@ public class ScmApplication {
         // if payment is not done, than order is not placed
         // Clear previous entries for the user in order_table and order_item
 
-
-        orderDAO.placeOrder(shopper);
-
         // check if the order is placed
         Cart cart = shopper.getICart();
         // show cart items
@@ -48,11 +45,22 @@ public class ScmApplication {
         cart.viewCart();
         cart.readCartItems();
 
-       // implement observer pattern here for order class
+        int orderID = shopper.checkout();
+        System.out.println("Order ID: " + orderID);
+        // implement observer pattern here for order class
         // update the order status
+        Order order = new Order(orderID, shopper.getShippingInfo(),
+                shopper.getUserID(),
+                shopper.getUserName(), shopper.getUserEmail(), "",
+                shopper.getRegisterDate(), shopper.getCustomerName(),
+                shopper.getAddress());
+        OrderStatusObserver observer = new OrderStatusObserver();
+        order.addObserver(observer);
+        order.changeOrderStatus("Shipped");
+
+
         // Implement logic for the checkout process
         // checkout the cart
-        shopper.checkout();
 
         // check if the cart is empty
         cart.viewCart();
@@ -60,66 +68,9 @@ public class ScmApplication {
         // check if the order is placed
         orderDAO.readAllOrders();
 
-       // orderDAO.updateOrderStatusAndDateShipped(1, "Shipped", new Date());
-       // orderDAO.readAllOrders();
+        // implementing observer pattern to track order status
 
 
-
-        //update total quantity in order_item table
-
-
-/*
-        // remove the product from the database
-        ProductDAO.removeProductFromDB(product, Product.productMap);
-        // check if the product is removed from the database
-        productDAO.readAllProducts();
-        //method to read cart items
-
-
-
-
-
-
-
-        // observer pattern implementation to tracks the order status]
-        // Create an order observer
-/*
-        // Create an observer
-        OrderObserver observer = new OrderStatusObserver();
-
-        // Register the observer with the order
-        addObserver(observer);
-
-        // Perform some actions that change the order status
-        order.changeOrderStatus("Processing");
-
-        // Add more observers if needed
-        // OrderObserver anotherObserver = new AnotherOrderObserver();
-        // order.addObserver(anotherObserver);
-
-        // Perform more actions that change the order status
-        order.changeOrderStatus("Shipped");
-
-        // Implement the observer pattern to track the order status
-
-
-    /*    // Check if the product is removed from the order
-        orderDAO.readAllOrders();
-
-        // Update the product price
-        productDAO.updateProductPrice(1, 2000);
-        // Check if the product price is updated
-        productDAO.readAllProducts();
-
-        // Update the order status
-        orderDAO.updateOrderStatus(1, "Delivered");
-        // Check if the order status is updated
-        orderDAO.readAllOrders();
-    }
-} */
-        // Update the order status in the database so that the observers are
-        // notified
-        // add observer pattern implementation here
 
     }
 }
