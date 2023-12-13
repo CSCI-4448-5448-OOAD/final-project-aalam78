@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Application Name</title>
+    <title>Logout Confirmation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,12 +24,21 @@
             padding: 2em;
         }
 
-        h1 {
+        p {
+            font-size: 1.2em;
             color: #333;
         }
 
-        p {
-            color: #666;
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
 
         footer {
@@ -46,17 +55,25 @@
 <body>
 
     <header>
-        <h1>Your Application Name</h1>
+        <h1>Logout Confirmation</h1>
     </header>
 
     <section>
-        <h2>Welcome to OOAD FINAL</h2>
-        <p>This is a simple homepage.</p>
+        <p>You have been successfully logged out.</p>
+        <button onclick="redirectToLogin()">Login Again</button>
     </section>
 
     <footer>
-        &copy; 2023 Your Application Name. All rights reserved.
+        &copy; 2023 Logout Confirmation. All rights reserved.
     </footer>
+
+    <script>
+        // Function to redirect to the login page
+        function redirectToLogin() {
+            // You can replace 'login.html' with the actual path to your login page
+            window.location.href = 'login.html';
+        }
+    </script>
 
 </body>
 

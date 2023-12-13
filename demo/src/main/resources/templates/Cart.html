@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+        }
+
+        section {
+            padding: 2em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
+            background-color: #ff5555;
+            color: #fff;
+            padding: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff0000;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Shopping Cart</h1>
+    </header>
+
+    <section>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="cartItems">
+                <!-- Cart items will be dynamically added here -->
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        &copy; 2023 Shopping Cart. All rights reserved.
+    </footer>
+
+    <script>
+        // Sample data for demonstration purposes
+        const cartItemsData = [
+            { productName: 'Product A', quantity: 2, price: 10.00 },
+            { productName: 'Product B', quantity: 1, price: 15.00 },
+            // Add more items as needed
+        ];
+
+        // Function to render cart items
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cartItems');
+
+            // Clear existing content
+            cartItemsContainer.innerHTML = '';
+
+            // Render each item in the cart
+            cartItemsData.forEach(item => {
+                const row = document.createElement('tr');
+
+                const productNameCell = document.createElement('td');
+                productNameCell.textContent = item.productName;
+
+                const quantityCell = document.createElement('td');
+                quantityCell.textContent = item.quantity;
+
+                const priceCell = document.createElement('td');
+                priceCell.textContent = `$${item.price.toFixed(2)}`;
+
+                const removeButtonCell = document.createElement('td');
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = () => removeItemFromCart(item.productName);
+                removeButtonCell.appendChild(removeButton);
+
+                // Append cells to the row
+                row.appendChild(productNameCell);
+                row.appendChild(quantityCell);
+                row.appendChild(priceCell);
+                row.appendChild(removeButtonCell);
+
+                // Append the row to the table
+                cartItemsContainer.appendChild(row);
+            });
+        }
+
+        // Function to remove an item from the cart
+        function removeItemFromCart(productName) {
+            const index = cartItemsData.findIndex(item => item.productName === productName);
+            if (index !== -1) {
+                cartItemsData.splice(index, 1);
+                renderCartItems();
+            }
+        }
+
+        // Initial rendering of cart items
+        renderCartItems();
+    </script>
+
+</body>
+
+</html>
