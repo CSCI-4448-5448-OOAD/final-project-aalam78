@@ -14,6 +14,8 @@ public class Shopping extends Customer {
     private static Cart icart;
 
     ProductDAO productDAO;
+    PaymentDao paymentDao;
+    OrderDAO orderDAO;
 
     // Constructor
     public Shopping(int userID, String userName, String email,
@@ -24,6 +26,8 @@ public class Shopping extends Customer {
         this.wishList = new ArrayList<>();
         this.cart = new HashMap<>();
         this.productDAO = new ProductDAO();
+        this.orderDAO = new OrderDAO();
+        this.paymentDao = new PaymentDao();
         this.icart = new Cart(userID);
     }
 
@@ -48,15 +52,15 @@ public class Shopping extends Customer {
         }
     }
 
-    public void checkout() {
+    public int checkout() {
         /* If the checkout process is successful, reset the cart */
         //mention date shipped and date delivered
-        PaymentDao paymentDao = new PaymentDao();
+        int orderID = orderDAO.placeOrder(this);
         paymentDao.processPayments(getUserID());
          icart.clearCart();
         // Log a successful checkout
         System.out.println("Checkout successful for shopper: " + getCustomerName());
-
+        return orderID;
     }
 
 

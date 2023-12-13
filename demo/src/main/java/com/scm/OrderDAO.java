@@ -12,11 +12,12 @@ public class OrderDAO {
         return DatabaseConnection.getConnection();
     }
 
-    public void placeOrder(Shopping shopper) {
+    public int placeOrder(Shopping shopper) {
+        int orderID = -1;
         if (shopper.getICart().getShoppingList().isEmpty()) {
             System.out.println("Shopping cart is empty. Please add items to " +
                     "the cart before placing the order.");
-            return;
+            return orderID;
         }
 
         try {
@@ -24,7 +25,7 @@ public class OrderDAO {
             connection.setAutoCommit(false);
 
             // Insert new order into order_table
-            int orderID = insertOrder(shopper);
+            orderID = insertOrder(shopper);
 
             // Insert items into order_item
             insertOrderItems(connection, shopper, orderID);
@@ -39,6 +40,7 @@ public class OrderDAO {
             e.printStackTrace();
 
         }
+        return  orderID;
     }
 
     void clearPreviousEntries(int userID) {
@@ -84,7 +86,6 @@ public class OrderDAO {
 
 
             // Set parameters for the order_table
-
             insertOrderStatement.setDate(1,
                     new java.sql.Date(new Date().getTime()));
             insertOrderStatement.setFloat(2, shopper.getICart().getTotalCost());
@@ -118,7 +119,6 @@ public class OrderDAO {
         try {
             PreparedStatement insertOrderItemStatement =
                     connection.prepareStatement(insertOrderItemQuery);
-            // Set parameters for the order_item
             for (Cart.CartItem cartItem : shopper.getICart().getShoppingList()) {
                 Product product = cartItem.getProduct();
 
@@ -135,8 +135,6 @@ public class OrderDAO {
         }
     }
 
-
-    // read order by orderID
 
     public void readAllOrders() {
         String selectAllOrdersQuery = "SELECT * FROM order_table";
@@ -155,24 +153,50 @@ public class OrderDAO {
                 String shippingInfo = resultSet.getString("shippingInfo");
                 String orderStatus = resultSet.getString("orderStatus");
                 int customerId = resultSet.getInt("customerID");
+                Date dateShipped = resultSet.getDate("dateShipped");
                 System.out.println("-----------------------------");
                 System.out.println("Order ID: " + orderId);
                 System.out.println("Date Created: " + dateCreated);
                 System.out.println("Total Cost: " + totalCost);
                 System.out.println("Payment Type: " + paymentType);
                 System.out.println("Shipping Info: " + shippingInfo);
+                System.out.println("Date Shipped: " + dateShipped);
                 System.out.println("Order Status: " + orderStatus);
                 System.out.println("Customer ID: " + customerId);
                 System.out.println("-----------------------------");
             }
-            // Extract other fields...
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle SQLException
+        }
+    }
+
+    public void updateOrderStatus(int orderID, String newStatus,
+                                  Date dateShipped) {
+        String updateOrderStatusQuery = "UPDATE order_table SET orderStatus =" +
+                " ?,  dateShipped = ? WHERE orderID = ?";
+
+        try {
+            Connection connection = getConnection();
+             PreparedStatement updateOrderStatusStatement = connection.prepareStatement(
+                     updateOrderStatusQuery);
+
+            java.sql.Date dateShippedSQL =
+                    new java.sql.Date(dateShipped.getTime());
+
+            // Set parameters for the update query
+            updateOrderStatusStatement.setString(1, newStatus);
+            updateOrderStatusStatement.setDate(2, dateShippedSQL);
+            updateOrderStatusStatement.setInt(3, orderID);
+
+            // Execute the update query
+            updateOrderStatusStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
 
-// Update total quantity in order_item for a specific productID
+
 

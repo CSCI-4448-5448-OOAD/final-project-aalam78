@@ -18,6 +18,10 @@ public class Customer extends User {
         this.shippingInfo = shippingInfo;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
     public String getShippingInfo() {
         return shippingInfo;
     }
