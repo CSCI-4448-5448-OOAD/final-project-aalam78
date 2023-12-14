@@ -8,9 +8,28 @@ import java.sql.Statement;
 import java.util.Date;
 
 public class OrderDAO {
+    private static volatile OrderDAO instance;
+
+    private OrderDAO() {
+        // private constructor to prevent instantiation
+    }
+
+    public static OrderDAO getInstance() {
+        if (instance == null) {
+            synchronized (OrderDAO.class) {
+                if (instance == null) {
+                    instance = new OrderDAO();
+                }
+            }
+        }
+        return instance;
+    }
+
+
     private Connection getConnection() {
         return DatabaseConnection.getConnection();
     }
+
 
     public int placeOrder(Shopping shopper) {
         int orderID = -1;
@@ -22,16 +41,12 @@ public class OrderDAO {
 
         try {
             Connection connection = getConnection();
-            connection.setAutoCommit(false);
 
             // Insert new order into order_table
             orderID = insertOrder(shopper);
 
             // Insert items into order_item
             insertOrderItems(connection, shopper, orderID);
-
-            // Commit the transaction
-            connection.commit();
 
             // Notify the customer about the order placement or update the order status as needed
             System.out.println(
@@ -79,7 +94,6 @@ public class OrderDAO {
 
         try {
             Connection connection = getConnection();
-            connection.setAutoCommit(false);
             PreparedStatement insertOrderStatement = connection.prepareStatement(
                     insertOrderQuery,
                     Statement.RETURN_GENERATED_KEYS);
