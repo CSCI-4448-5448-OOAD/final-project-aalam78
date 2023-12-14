@@ -7,6 +7,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PaymentDao {
+
+    private static PaymentDao instance;
+
+    private PaymentDao() {
+        // private constructor to prevent instantiation
+    }
+
+    public static synchronized PaymentDao getInstance() {
+        if (instance == null) {
+            instance = new PaymentDao();
+        }
+        return instance;
+    }
+
     private static final String SELECT_CUSTOMER_BY_ID = "SELECT email, " +
             "payment_mode" +
             " FROM " +

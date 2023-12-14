@@ -8,6 +8,19 @@ import static com.scm.DatabaseConnection.handleSQLException;
 
 public class ProductDAO {
 
+    private static ProductDAO instance;
+
+    private ProductDAO() {
+        // private constructor to prevent instantiation
+    }
+
+    public static synchronized ProductDAO getInstance() {
+        if (instance == null) {
+            instance = new ProductDAO();
+        }
+        return instance;
+    }
+
     private Connection getConnection() {
         return DatabaseConnection.getConnection();
     }

@@ -24,7 +24,7 @@ public class Order extends Customer {
         super(userID, userName, email, password, registerDate,
                 shippingInfo, customerName, address);
         this.orderID = orderID;
-        this.orderDAO = new OrderDAO();
+        this.orderDAO = OrderDAO.getInstance();
         this.orderStatus = DEFAULT_ORDER_STATUS;
         this.dateShipped = null;
     }

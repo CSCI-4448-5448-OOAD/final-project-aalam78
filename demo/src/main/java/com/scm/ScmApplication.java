@@ -14,7 +14,7 @@ public class ScmApplication {
                 factory.createProduct("MacBook Pro 2019",
                         "This laptop is mediocre.", 500, 2.5f);
 
-        ProductDAO productDAO = new ProductDAO();
+        ProductDAO productDAO = ProductDAO.getInstance();
         productDAO.addProductToDB(product, Product.productMap);
 
         productType = "Furniture"; // or "Furniture"
@@ -31,7 +31,7 @@ public class ScmApplication {
         shopper.addToCart(1);
         shopper.addToCart(2);
 
-        OrderDAO orderDAO = new OrderDAO();
+        OrderDAO orderDAO = OrderDAO.getInstance();
         orderDAO.clearPreviousEntries(shopper.getUserID());
         // if i receive payment than only i will consider the order as placed
         // if payment is not done, than order is not placed
@@ -49,28 +49,21 @@ public class ScmApplication {
         System.out.println("Order ID: " + orderID);
         // implement observer pattern here for order class
         // update the order status
-        Order order = new Order(orderID, shopper.getShippingInfo(),
-                shopper.getUserID(),
-                shopper.getUserName(), shopper.getUserEmail(), "",
-                shopper.getRegisterDate(), shopper.getCustomerName(),
-                shopper.getAddress());
-        OrderStatusObserver observer = new OrderStatusObserver();
-        order.addObserver(observer);
-        order.changeOrderStatus("Shipped");
+        if (orderID != -1) {
+            Order order = new Order(orderID, shopper.getShippingInfo(),
+                    shopper.getUserID(),
+                    shopper.getUserName(), shopper.getUserEmail(), "",
+                    shopper.getRegisterDate(), shopper.getCustomerName(),
+                    shopper.getAddress());
+            OrderStatusObserver observer = new OrderStatusObserver();
+            order.addObserver(observer);
+            order.changeOrderStatus("Shipped");
+        }
 
 
-        // Implement logic for the checkout process
-        // checkout the cart
-
-        // check if the cart is empty
         cart.viewCart();
         cart.readCartItems();
         // check if the order is placed
         orderDAO.readAllOrders();
-
-        // implementing observer pattern to track order status
-
-
-
     }
 }
