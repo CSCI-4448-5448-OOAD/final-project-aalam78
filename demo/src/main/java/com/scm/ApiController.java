@@ -6,6 +6,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class ApiController {
 
     private Map<Integer, Shopping> customerIdToShopperMap = new HashMap<>();
@@ -29,8 +30,9 @@ public class ApiController {
     }
 
     @PostMapping("/addItemToCart")
-    public boolean addItemToCart(@RequestParam int customerID,
-                                 @RequestParam int productID) {
+    public boolean addItemToCart(@RequestBody Map<String, Integer> request) {
+        int customerID = request.get("customerID");
+        int productID = request.get("productID");
         CustomerDAO customerDAO = new CustomerDAO();
         Shopping shopper;
         if (customerIdToShopperMap.containsKey(customerID)) {

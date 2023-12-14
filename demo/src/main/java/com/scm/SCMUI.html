@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCM Web Interface</title>
+</head>
+<body>
+
+<h1>SCM Web Interface</h1>
+
+<h2>List a Product</h2>
+<form id="listProductForm">
+    <label for="productName">Product Name:</label>
+    <input type="text" id="productName" name="productName" required><br>
+
+    <label for="productDescription">Product Description:</label>
+    <input type="text" id="productDescription" name="productDescription" required><br>
+
+    <label for="productPrice">Product Price:</label>
+    <input type="number" id="productPrice" name="productPrice" required><br>
+
+    <label for="productWeight">Product Weight:</label>
+    <input type="number" id="productWeight" name="productWeight" required><br>
+
+    <label for="productWarranty">Product Warranty:</label>
+    <input type="number" id="productWarranty" name="productWarranty" required><br>
+
+    <label for="productType">Product Type:</label>
+    <input type="text" id="productType" name="productType" required><br>
+
+    <button type="button" onclick="listProduct()">List Product</button>
+</form>
+
+<h2>Add Item(s) to Cart</h2>
+<form id="addItemToCartForm">
+    <!-- User can add multiple items -->
+    <div id="cartItems">
+        <div class="cartItem">
+            <label>Customer ID:
+                <input type="number" name="addItemToCartCustomerID" required>
+            </label>
+
+            <label>Product ID:
+                <input type="number" name="addItemToCartProductID" required>
+            </label>
+        </div>
+    </div>
+
+    <!-- Button to submit the cart items -->
+    <button type="button" onclick="addItemToCart()">Add Item(s) to Cart</button>
+
+    <!-- Button to add more cart items -->
+    <div class="newLine">
+        <button type="button" onclick="addCartItem()">Add Another Item</button>
+    </div>
+</form>
+
+<h2>Checkout</h2>
+<form id="checkoutForm">
+    <label for="checkoutCustomerID">Customer ID:</label>
+    <input type="number" id="checkoutCustomerID" name="checkoutCustomerID" required><br>
+
+    <button type="button" onclick="checkout()">Checkout</button>
+</form>
+
+
+<script>
+    function listProduct() {
+        var productName = document.getElementById('productName').value;
+        var productDescription = document.getElementById('productDescription').value;
+        var productPrice = parseFloat(document.getElementById('productPrice').value);
+        var productWeight = parseFloat(document.getElementById('productWeight').value);
+        var productWarranty = parseInt(document.getElementById('productWarranty').value);
+        var productType = document.getElementById('productType').value;
+
+        // Create an object with the data
+        var data = {
+            name: productName,
+            description: productDescription,
+            price: productPrice,
+            productWeight: productWeight,
+            warranty: productWarranty,
+            productType: productType
+        };
+
+        // Make the POST request using fetch
+        fetch('http://localhost:8080/api/listProduct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => console.log(data)) // Log the response from the server
+        .catch(error => console.error('Error:', error));
+    }
+
+
+
+    function addCartItem() {
+        // Clone the cart item template
+        var cartItemTemplate = document.querySelector('.cartItem');
+        var newItem = cartItemTemplate.cloneNode(true);
+
+        // Clear input values in the cloned item
+        newItem.querySelectorAll('input').forEach(input => input.value = '');
+
+        // Append the new cart item to the container
+        document.getElementById('cartItems').appendChild(newItem);
+    }
+
+    function addItemToCart() {
+        // Implement the logic to send a request to the addItemToCart endpoint
+        // Loop through all cart items and send individual requests
+        var cartItems = document.querySelectorAll('.cartItem');
+        cartItems.forEach(item => {
+            var customerID = parseInt(item.querySelector('[name="addItemToCartCustomerID"]').value);
+            var productID = parseInt(item.querySelector('[name="addItemToCartProductID"]').value);
+
+            // Create an object with the data
+            var data = {
+                customerID: customerID,
+                productID: productID
+            };
+
+            // Make the POST request using fetch
+            fetch('http://localhost:8080/api/addItemToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => console.log(data)) // Log the response from the server
+            .catch(error => console.error('Error:', error));
+        });
+    }
+
+    function checkout() {
+        // Implement the logic to send a request to the checkout endpoint
+        // You can use fetch or other AJAX methods here
+        // Example using fetch:
+        var customerID = parseInt(document.getElementById('checkoutCustomerID').value);
+
+        // Make the POST request using fetch
+        // Make the POST request using fetch
+        fetch(`http://localhost:8080/api/checkout?customerID=${customerID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        .then(response => response.json())
+        .then(data => console.log(data)) // Log the response from the server
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+
+</body>
+</html>

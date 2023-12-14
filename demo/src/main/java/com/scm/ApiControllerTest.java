@@ -2,6 +2,8 @@ package com.scm;
 
 import com.scm.ApiController.ProductRequest;
 
+import java.util.Map;
+
 public class ApiControllerTest {
 
     public static void main(String[] args) {
@@ -46,8 +48,10 @@ public class ApiControllerTest {
     private static void testAddItemToCart(ApiController apiController,
                                           int customerID, int productID) {
         // Call the addItemToCart endpoint
-        boolean addItemResult = apiController.addItemToCart(customerID,
-                productID);
+
+        Map<String, Integer> request = Map.of("customerID", customerID,
+                "productID", productID);
+        boolean addItemResult = apiController.addItemToCart(request);
 
         if (addItemResult) {
             System.out.println("Item successfully added to the cart for  " +
