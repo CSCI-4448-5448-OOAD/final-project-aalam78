@@ -31,7 +31,7 @@ We employ a MySQL relational database to store and organize data systematically,
 The system is built around the Spring Boot framework, an open-source framework simplifying the development of production-ready applications. Maven and Maven dependencies, along with Spring Boot, form the basis of the project.
 
 # Software Architecture: 
-The project demonstrates a strong emphasis on software architecture principles, resulting in a well-structured and scalable system. Detail information is present in Project 7 Write-up.
+The project demonstrates a strong emphasis on software architecture principles, resulting in a well-structured and scalable system. Detailed information is present in Project 7 Write-up file.
 
 # Assumptions:
 In developing the Supply Chain Management (SCM) system, we made certain assumptions to streamline the project's scope and focus. These assumptions serve as foundational elements guiding the design and implementation. It's essential for users and contributors to be aware of these assumptions for a comprehensive understanding of the system.
