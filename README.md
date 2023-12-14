@@ -27,14 +27,26 @@ The core logic of the SCM system is implemented in Java, leveraging the language
 # MySQL Database: 
 We employ a MySQL relational database to store and organize data systematically, ensuring data integrity and optimal retrieval performance.
 
+# Spring Boot
+The system is built around the Spring Boot framework, an open-source framework simplifying the development of production-ready applications. Maven and Maven dependencies, along with Spring Boot, form the basis of the project.
+
 # Software Architecture: 
 The project demonstrates a strong emphasis on software architecture principles, resulting in a well-structured and scalable system. Detail information is present in Project 7 Write-up.
 
 # Assumptions:
-We assumed the application would go more smoothly at the beginning. We assumed we would have an easier time setting up front end and bulding a UI with a comprehensive back end. The back end took longer than expected with a lot more details that we didnt think of
-when we proposed the application. Then, device compatability made it hard to set up a more user friendly UI like we wanted to display our application. 
+In developing the Supply Chain Management (SCM) system, we made certain assumptions to streamline the project's scope and focus. These assumptions serve as foundational elements guiding the design and implementation. It's essential for users and contributors to be aware of these assumptions for a comprehensive understanding of the system.
+
+1. Single Payment Mode
+We assume that each customer associated with the SCM system uses a single payment mode for transactions. Consequently, a "payment mode" column is added to the "customers" table to record this information.
+2. RESTful API Integration
+The project heavily relies on the integration of RESTful APIs for communication between different components of the SCM system. This assumes that RESTful principles are suitable for the desired communication patterns.
+3. Relational Database Model
+The project assumes the effectiveness of a relational database model for managing supply chain data. This choice is based on the structured nature of supply chain information, with relationships between entities such as customers, orders, and products.
+4. Security Measures
+Certain security measures, such as user authentication and authorization, are assumed to be handled by external systems or frameworks. The focus of this project is on functionality and data management.
+
 
 # Running the appliction:
-Our "Main" class which runs our application is "SCMApplication" so run "SCMApplication" to run the application 
+To initiate the application, execute the "SCMApplication" class, which serves as the main class orchestrating the functionality. Run the "SCMApplication" class to launch the application.
 
 
