@@ -185,6 +185,36 @@ public class OrderDAO {
         }
     }
 
+    public String getOrderStatus(int customerID, int orderID) {
+        String getOrderStatusQuery = "SELECT orderStatus FROM  order_table " +
+                "WHERE orderID = ? AND customerID = ?";
+
+        try {
+            Connection connection = getConnection();
+            PreparedStatement getOrderStatusStatement =
+                    connection.prepareStatement(getOrderStatusQuery);
+
+            // Set parameters for the SELECT query
+            getOrderStatusStatement.setInt(1, orderID);
+            getOrderStatusStatement.setInt(2, customerID);
+
+            // Execute the SELECT query
+            ResultSet resultSet = getOrderStatusStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("orderStatus");
+            } else {
+                // Handle the case where the order is not found
+                return "Order not found for orderID: " + orderID +  " and " +
+                        "customerID: " + customerID;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error occurred while fetching order status";
+        }
+    }
+
+
     public void updateOrderStatus(int orderID, String newStatus,
                                   Date dateShipped) {
         String updateOrderStatusQuery = "UPDATE order_table SET orderStatus =" +

@@ -9,7 +9,6 @@ public class Shopping extends Customer {
 
     private List<Product> wishList;
     private List<Order> orderHistory;
-    private HashMap<Integer, Product> cart;
 
     private static Cart icart;
 
@@ -24,7 +23,6 @@ public class Shopping extends Customer {
         super(userID, userName, email, password, registerDate, shippingInfo,
                 customerName, address);
         this.wishList = new ArrayList<>();
-        this.cart = new HashMap<>();
         this.productDAO = ProductDAO.getInstance();
         this.orderDAO = OrderDAO.getInstance();
         this.paymentDao = PaymentDao.getInstance();
@@ -112,6 +110,11 @@ public class Shopping extends Customer {
         return "Order status for shopping customer " + getUserName();
     }
 
+    public void viewCart() {
+        System.out.println("Cart Items:");
+        icart.viewCart();
+    }
+
     // Additional methods for managing order history
     public void addToOrderHistory(Order order) {
         orderHistory.add(order);
@@ -129,7 +132,7 @@ public class Shopping extends Customer {
                 // fields from the superclass
                 ", wishList=" + wishList +
                 ", orderHistory=" + orderHistory +
-                ", cart=" + cart +
+                ", cart=" + icart +
                 '}';
     }
 

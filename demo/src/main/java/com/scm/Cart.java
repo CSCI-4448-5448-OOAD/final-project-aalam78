@@ -78,14 +78,12 @@ public class Cart {
 
     // Method to view the contents of the cart
     public void viewCart() {
-        System.out.println("Cart ID: " + cartID);
-        if (!shoppingList.isEmpty()) {
-            System.out.println("Date & Time Added: " + getFormattedDate());
-            System.out.println("Total: $" + total);
-        }
+//        System.out.println("Cart ID: " + cartID);
         if (shoppingList.isEmpty()) {
         System.out.println("Shopping List: Empty");
         } else {
+            System.out.println("Date & Time Added: " + getFormattedDate());
+            System.out.println("Total: $" + total);
             System.out.println("Shopping List: ");
             for (CartItem cartItem : shoppingList) {
                 System.out.println(cartItem.toString());

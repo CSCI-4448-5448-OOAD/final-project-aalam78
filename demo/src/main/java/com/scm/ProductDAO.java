@@ -1,6 +1,5 @@
 package com.scm;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.HashMap;
 
@@ -25,8 +24,21 @@ public class ProductDAO {
         return DatabaseConnection.getConnection();
     }
 
-    // Method to insert a product into the database
-    public void addProductToDB(Product product,
+    void clearPreviousEntries() {
+        String deleteQuery = "DELETE FROM product";
+        try {
+            Connection connection = getConnection();
+            PreparedStatement clearEntriesStatement =
+                    connection.prepareStatement(deleteQuery);
+
+            clearEntriesStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+        // Method to insert a product into the database
+    public int addProductToDB(Product product,
                                HashMap<Integer, Product> productMap) {
         int productID = insertProduct(product.getProductName(),
                 product.getProductDescription(), product.getProductPrice(),
@@ -34,6 +46,7 @@ public class ProductDAO {
         if (productID != -1) {
             productMap.put(product.getProductID(), product);
         }
+        return productID;
     }
 
     public Product getProductById(int productID) {
@@ -90,7 +103,7 @@ public class ProductDAO {
                 // specs but their IMEI will be different.
                 System.out.println("Product with Name " + name + " already " +
                         "exists.  Skipping insertion.");
-                return -1;
+                return resultSet.getInt("ProductID");
             }
 
             PreparedStatement preparedStatement =
