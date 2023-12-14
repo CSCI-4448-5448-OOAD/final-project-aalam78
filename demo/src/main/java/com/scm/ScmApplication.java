@@ -9,8 +9,8 @@ public class ScmApplication {
     public static void main(String[] args) {
         SpringApplication.run(ScmApplication.class, args);
 
-//        ProductDAO productDAO = ProductDAO.getInstance();
-//        productDAO.clearPreviousEntries();
+        ProductDAO productDAO = ProductDAO.getInstance();
+        productDAO.clearPreviousEntries();
 //
 //        String productType = "Electronic"; // or "Furniture"
 //        AbstractProductFactory factory =
