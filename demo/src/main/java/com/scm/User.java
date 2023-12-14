@@ -63,14 +63,6 @@ public class User {
         return loginStatus;
     }
 
-    public static void addUserToDB(User user) {
-        userMap.put(user.getUserID(), user);
-    }
-
-    public static void removeUserFromDB(int userID) {
-        userMap.remove(userID);
-    }
-
     // toString method
     @Override
     public String toString() {

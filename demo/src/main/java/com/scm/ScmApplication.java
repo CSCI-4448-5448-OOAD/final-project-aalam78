@@ -7,6 +7,9 @@ public class ScmApplication {
 
     public static void main(String[] args) {
 //        SpringApplication.run(ScmApplication.class, args);
+        ProductDAO productDAO = ProductDAO.getInstance();
+        productDAO.clearPreviousEntries();
+
         String productType = "Electronic"; // or "Furniture"
         AbstractProductFactory factory =
                 ProductFactoryProvider.createFactory(productType);
@@ -14,7 +17,7 @@ public class ScmApplication {
                 factory.createProduct("MacBook Pro 2019",
                         "This laptop is mediocre.", 500, 2.5f);
 
-        ProductDAO productDAO = ProductDAO.getInstance();
+
         productDAO.addProductToDB(product, Product.productMap);
 
         productType = "Furniture"; // or "Furniture"
@@ -31,19 +34,15 @@ public class ScmApplication {
         shopper.addToCart(1);
         shopper.addToCart(2);
 
+        shopper.viewCart();
+
         OrderDAO orderDAO = OrderDAO.getInstance();
         orderDAO.clearPreviousEntries(shopper.getUserID());
         // if i receive payment than only i will consider the order as placed
         // if payment is not done, than order is not placed
         // Clear previous entries for the user in order_table and order_item
 
-        // check if the order is placed
-        Cart cart = shopper.getICart();
-        // show cart items
-        System.out.println("Cart Items:");
-        // check if the cart is empty
-        cart.viewCart();
-        cart.readCartItems();
+
 
         int orderID = shopper.checkout();
         System.out.println("Order ID: " + orderID);
@@ -60,9 +59,8 @@ public class ScmApplication {
             order.changeOrderStatus("Shipped");
         }
 
+        shopper.viewCart();
 
-        cart.viewCart();
-        cart.readCartItems();
         // check if the order is placed
         orderDAO.readAllOrders();
     }

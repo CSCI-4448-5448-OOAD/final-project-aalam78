@@ -35,7 +35,6 @@ public class CustomerDAO {
         return null; // Return null if customer not found or an error occurred
     }
 
-
     private Shopping extractShopperFromResultSet(ResultSet resultSet) throws SQLException {
         int userId = resultSet.getInt("user_id");
         String userName = resultSet.getString("user_name");
