@@ -28,7 +28,7 @@ The core logic of the SCM system is implemented in Java, leveraging the language
 We employ a MySQL relational database to store and organize data systematically, ensuring data integrity and optimal retrieval performance.
 
 # Software Architecture: 
-The project demonstrates a strong emphasis on software architecture principles, resulting in a well-structured and scalable system.
+The project demonstrates a strong emphasis on software architecture principles, resulting in a well-structured and scalable system. Detail information is present in Project 7 Write-up.
 
 
 
