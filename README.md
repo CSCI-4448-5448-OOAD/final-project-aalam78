@@ -34,6 +34,7 @@ The project demonstrates a strong emphasis on software architecture principles, 
 We assumed the application would go more smoothly at the beginning. We assumed we would have an easier time setting up front end and bulding a UI with a comprehensive back end. The back end took longer than expected with a lot more details that we didnt think of
 when we proposed the application. Then, device compatability made it hard to set up a more user friendly UI like we wanted to display our application. 
 
-
+# Running the appliction:
+Our "Main" class which runs our application is "SCMApplication" so run "SCMApplication" to run the application 
 
 
