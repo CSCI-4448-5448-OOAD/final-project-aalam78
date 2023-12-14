@@ -45,6 +45,11 @@ The project assumes the effectiveness of a relational database model for managin
 4. Security Measures
 Certain security measures, such as user authentication and authorization, are assumed to be handled by external systems or frameworks. The focus of this project is on functionality and data management.
 
+# Test
+ApiControllerTest.java
+The ApiControllerTest class serves as a comprehensive testing suite for the functionalities of the Supply Chain Management (SCM) system. In this test scenario, various aspects of the system are rigorously evaluated. The testing process begins by clearing previous entries for a specific customer and product data, ensuring a clean state for testing. Subsequently, it covers the listing of electronic and furniture products, simulating the addition of a MacBook Pro and an Office Chair to the system. The test then proceeds to validate the process of adding items to the customer's shopping cart, followed by the execution of the checkout process. This involves verifying that the order is successfully placed and obtaining the associated order ID. Lastly, the test assesses the accuracy of retrieving the order status for the specified customer and order ID. 
+Postman for API Testing:
+Postman is used for testing RESTful API calls. Postman provides a convenient and efficient way to test API endpoints, ensuring their functionality and validating responses.
 
 # Running the appliction:
 To initiate the application, execute the "SCMApplication" class, which serves as the main class orchestrating the functionality. Run the "SCMApplication" class to launch the application.
